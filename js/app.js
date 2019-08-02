@@ -4,6 +4,9 @@ let isPlayerWhite, winnerPresent;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
 cell.addEventListener('click', handleClick);
+
+let rst = document.getElementById('reset');
+rst.addEventListener('click', reset);
 /*----- functions -----*/
 // Function that checks if player Black has a winning move
 play();
@@ -14,6 +17,19 @@ function play() {
         ];
     isPlayerWhite = true;
     winnerPresent = false;
+}
+
+function reset() {
+    play();
+    document.querySelector('.win').innerHTML = '';
+    document.querySelector('.player').innerHTML = 'Player: White';
+    cell.addEventListener('click', handleClick);
+    for(let i = 0; i < board.length; i++) {
+        for(let j = 0; j < board.length; j++) {
+            let tCell = document.getElementById(`c${i}r${j}`);
+            tCell.style.backgroundColor = "#565264";
+        }
+    }
 }
 
 function handleClick(evt) {
