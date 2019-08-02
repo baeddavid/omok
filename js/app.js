@@ -21,9 +21,7 @@ let mvA = document.querySelector('button.mvA');
 mvA.addEventListener('click', replayA);
 
 let cpu = document.getElementById('CPU');
-cpu.addEventListener('click',function() {
-    console.log('f');
-})
+cpu.addEventListener('click',cpuPlay)
 /*----- functions -----*/
 play();
 
@@ -34,6 +32,7 @@ function play() {
     history = [];
     isPlayerWhite = true;
     winnerPresent = false;
+    is2p = false;
 }
 
 function reset() {
@@ -44,42 +43,56 @@ function reset() {
     clearBoard();
 }
 
+function cpuPlay() {
+    board = [
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null], //9
+        ];
+    history = [];
+    isPlayerWhite = true;
+    winnerPresent = false;
+    clearBoard();
+
+    
+}
+
 function handleClick(evt) {
     let idx = evt.target.id;
     let idxArr = cleanIdx(idx);
-    if(isPlayerWhite) {
-        if(board[idxArr[0]][idxArr[1]] != null) {
-            document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
-            return;
-        } else {
-            document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
-            board[idxArr[0]][idxArr[1]] = 'W';
-            history.push(board.map(inner => inner.slice())); 
-            render1(idxArr);
-            checkWhiteWin(idxArr[0], idxArr[1]);
-            if(winnerPresent) {
-                document.querySelector('.win').innerHTML = '<span class="dsp">White Win!</span>';
+    if(!is2p) {
+        if(isPlayerWhite) {
+            if(board[idxArr[0]][idxArr[1]] != null) {
+                document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
                 return;
+            } else {
+                document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
+                board[idxArr[0]][idxArr[1]] = 'W';
+                history.push(board.map(inner => inner.slice())); 
+                render1(idxArr);
+                checkWhiteWin(idxArr[0], idxArr[1]);
+                if(winnerPresent) {
+                    document.querySelector('.win').innerHTML = '<span class="dsp">White Win!</span>';
+                    return;
+                }
+                isPlayerWhite = false;
+                document.querySelector('.player').innerHTML = '<span class="etc">Player: Black</span>'
             }
-            isPlayerWhite = false;
-            document.querySelector('.player').innerHTML = '<span class="etc">Player: Black</span>'
-        }
-    } else {
-        if(board[idxArr[0]][idxArr[1]] != null) {
-            document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
-            return;
         } else {
-            document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
-            board[idxArr[0]][idxArr[1]] = 'B';
-            history.push(board.map(inner => inner.slice())); 
-            render2(idxArr);
-            checkBlackWin(idxArr[0], idxArr[1]);
-            if(winnerPresent) {
-                document.querySelector('.win').innerHTML = '<span class="dsp">Black Win!</span>';
+            if(board[idxArr[0]][idxArr[1]] != null) {
+                document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
                 return;
+            } else {
+                document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
+                board[idxArr[0]][idxArr[1]] = 'B';
+                history.push(board.map(inner => inner.slice())); 
+                render2(idxArr);
+                checkBlackWin(idxArr[0], idxArr[1]);
+                if(winnerPresent) {
+                    document.querySelector('.win').innerHTML = '<span class="dsp">Black Win!</span>';
+                    return;
+                }
+                isPlayerWhite = true;
+                document.querySelector('.player').innerHTML = 'Player: White'
             }
-            isPlayerWhite = true;
-            document.querySelector('.player').innerHTML = 'Player: White'
         }
     }
 }
