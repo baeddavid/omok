@@ -3,12 +3,13 @@
 
 *, *::before, *::after {
     box-sizing: border-box;
-  }
+}
 
 h1 {
     font-family: 'Quicksand', sans-serif;
     color: white;
     height: 1vh;
+    margin-right: 15%;
 }
 
 h2 {
@@ -16,47 +17,39 @@ h2 {
     color: white;
 }
 
+/* body {
+    height: 100vh;
+    margin: 0;
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    background-color: #BAD7F2;
+} */
+
 body {
     height: 100vh;
     margin: 0;
-    display: flex;
+    display: grid;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: #BAD7F2;
-  }
-
-  button {
-      background-color: #BAD7F2;
-      width: 50;
-      height: 25px;
-      color: white;
-      border: none;
-      font-size: 25px;
-      margin-bottom: 5px;
-      margin-top: 10px;
-  }
-
-#reset {
-    margin-top: 5px;
-}
-
-.playable {
+    align-content: center;
     background-color: #BAD7F2;
 }
 
-.mrk {
-  color: white;
-  text-align: center;
-  font-size: 110px;
-  margin-bottom: 10px;
-}
-
-.dsp {
-    font-family: 'Quicksand', sans-serif;
+button {
+    background-color: #BAD7F2;
+    width: 50;
+    height: 25px;
     color: white;
-    font-size: 45px;
-    
+    border: none;
+    font-size: 25px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+button :hover {
+    color: black;
 }
 
 section.playable {
@@ -65,22 +58,27 @@ section.playable {
     grid-template-rows: repeat(19, 3vh);
     border-radius: 5%;
     grid-gap: 1px;
-  }
-
-section.rightBar {
-    color: white;
-    position: absolute; 
-    right: 125px;
-    font-size: 25px;
-    justify-content: center;
 }
 
-section.leftBar {
+/* section.leftBar {
+    display: inline-grid;
     color: white;
     position: absolute;
-    left: 125px;
-    bottom: 405px;
+    left: 100px;
+    bottom: 150px;
     font-size: 25px;
+    border: 2px solid #565264;
+    justify-items: center;
+} */
+
+section.leftBar {
+    display: grid;
+    color: white;
+    position: relative;
+    font-size: 25px;
+    border: 2px solid #565264;
+    justify-items: center;
+    margin-right: 5%;
 }
 
 section.playable div {
@@ -94,13 +92,81 @@ section.playable :hover {
     cursor: pointer;
   }
 
-  .header {
-      text-decoration: underline;
-  }
+section.leftBar input {
+    color: black;
+}
 
-  #note {
-      font-size: 15px;
-  }
+section.leftBar label {
+    color: black;
+    font-size: 20px;
+    padding-right: 15px;
+}
+ 
+.container {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 27%;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}
+
+.header {
+    text-decoration: underline;
+    justify-content: center;
+    color: black;
+}
+
+.etc {
+    color: black;
+}
 
 
+.player {
+    display: flex;
+    justify-content: center;
+}
 
+.playable {
+    background-color: #BAD7F2;
+}
+
+.win {
+    display: flex;
+    justify-content: center;
+}
+
+.mrk {
+  color: white;
+  text-align: center;
+  font-size: 110px;
+  margin-bottom: 10px;
+}
+
+.dsp {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    font-size: 45px;
+}
+
+.heading {
+    display: grid;
+    justify-content: center;
+    margin-left: 10%;
+}
+
+#note {
+    font-size: 15px;
+}
+
+ #container {
+     display: flex;
+ }
+
+ #reset {
+    margin-top: 5px;
+    margin-left: 45%;
+    width: 200px;
+}

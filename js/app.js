@@ -1,6 +1,6 @@
 /*----- app's state (variables) -----*/ 
 let board, history;
-let isPlayerWhite, winnerPresent;
+let isPlayerWhite, winnerPresent, is2p;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
 cell.addEventListener('click', handleClick);
@@ -8,16 +8,16 @@ cell.addEventListener('click', handleClick);
 let rst = document.getElementById('reset');
 rst.addEventListener('click', reset);
 
-let mv5 = document.querySelector('div.mv5');
+let mv5 = document.querySelector('button.mv5');
 mv5.addEventListener('click', replay5);
 
-let mv10 = document.querySelector('div.mv10');
+let mv10 = document.querySelector('button.mv10');
 mv10.addEventListener('click', replay10);
 
-let mv15 = document.querySelector('div.mv15');
+let mv15 = document.querySelector('button.mv15');
 mv15.addEventListener('click', replay15);
 
-let mvA = document.querySelector('div.mvA');
+let mvA = document.querySelector('button.mvA');
 mvA.addEventListener('click', replayA);
 /*----- functions -----*/
 play();
@@ -57,7 +57,7 @@ function handleClick(evt) {
                 return;
             }
             isPlayerWhite = false;
-            document.querySelector('.player').innerHTML = 'Player: Black'
+            document.querySelector('.player').innerHTML = '<span class="etc">Player: Black</span>'
         }
     } else {
         if(board[idxArr[0]][idxArr[1]] != null) {
