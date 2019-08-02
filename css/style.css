@@ -40,7 +40,7 @@ button {
 }
 
 button:hover {
-    color: rgb(38, 189, 98);
+    color: #706677;
     text-decoration: underline;
 }
 

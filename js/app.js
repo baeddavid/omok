@@ -39,6 +39,8 @@ function play() {
     counter = 0;
     timer = 15;
     turns = [true, false];
+    if(!winnerPresent)
+        clearInterval(timerId);
 }
 
 function reset() {
