@@ -27,7 +27,12 @@ function handleClick(evt) {
             board[idxArr[0]][idxArr[1]] = 'W';
             render1(idxArr);
             checkWhiteWin(idxArr[0], idxArr[1]);
+            if(winnerPresent) {
+                document.querySelector('.win').innerHTML = '<span class="dsp">White Win!</span>';
+                return;
+            }
             isPlayerWhite = false;
+            document.querySelector('.player').innerHTML = 'Player: Black'
         }
     } else {
         if(board[idxArr[0]][idxArr[1]] != null) {
@@ -37,19 +42,24 @@ function handleClick(evt) {
             board[idxArr[0]][idxArr[1]] = 'B';
             render2(idxArr);
             checkBlackWin(idxArr[0], idxArr[1]);
+            if(winnerPresent) {
+                document.querySelector('.win').innerHTML = '<span class="dsp">Black Win!</span>';
+                return;
+            }
             isPlayerWhite = true;
+            document.querySelector('.player').innerHTML = 'Player: White'
         }
     }
 }
 //1de9b6
 function render1(idxArr) {
     let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
-    marker.style.backgroundColor = '#AFEEEE';  
+    marker.style.backgroundColor = '#ECF4FB';  
 }
 
 function render2(idxArr) {
     let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
-    marker.style.backgroundColor = 'black';  
+    marker.style.backgroundColor = '#111416';  
 }
 
 function checkBlackWin(row, col) {

@@ -22,11 +22,11 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #14bdac;
+    background-color: #BAD7F2;
   }
 
   button {
-      background-color: #14bdac;
+      background-color: #BAD7F2;
       width: 50;
       height: 25px;
       color: white;
@@ -41,7 +41,7 @@ body {
 }
 
 .playable {
-    background-color: #14bdac;
+    background-color: #BAD7F2;
 }
 
 .mrk {
@@ -69,10 +69,10 @@ section.playable {
 section.playable div {
     border: 1px solid black;
     border-radius: 10%;
-    background-color: #0da192;
+    background-color: #565264;
   }
 
 section.playable :hover {
-    background-color: aquamarine !important;
+    background-color: #B1ABB4 !important;
     cursor: pointer;
   }
