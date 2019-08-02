@@ -1,5 +1,5 @@
 /*----- app's state (variables) -----*/ 
-let board, history;
+let board, history, timer;
 let isPlayerWhite, winnerPresent, is2p, counter;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
@@ -32,8 +32,9 @@ function play() {
     history = [];
     isPlayerWhite = true;
     winnerPresent = false;
-    is2p = false;
+    is2p = true;
     counter = 0;
+    timer = 15;
 }
 
 function reset() {
@@ -52,14 +53,12 @@ function cpuPlay() {
     isPlayerWhite = true;
     winnerPresent = false;
     clearBoard();
-
-
 }
 
 function handleClick(evt) {
     let idx = evt.target.id;
     let idxArr = cleanIdx(idx);
-    if(!is2p) {
+    if(is2p) {
         if(isPlayerWhite) {
             if(board[idxArr[0]][idxArr[1]] != null) {
                 document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
@@ -126,7 +125,7 @@ function replay5() {
         startIndex = 0;
     renderBoard(history[startIndex]);
 
-    let interval = 550;
+    let interval = 750;
     for(let i = startIndex, j = 0; i < history.length; i++, j++) {
         setTimeout(function() {
             renderBoard(history[i]);
@@ -418,3 +417,4 @@ function cleanIdx(idxString) {
     idxArr.push(parseInt(idx));
     return idxArr;
 }
+
