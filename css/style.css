@@ -152,6 +152,12 @@ section.leftBar label {
     font-size: 45px;
 }
 
+.dsp2 {
+    font-family: 'Quicksand', sans-serif;
+    color: black;
+    font-size: 45px;
+}
+
 .heading {
     display: grid;
     justify-content: center;

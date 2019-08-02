@@ -1,6 +1,6 @@
 /*----- app's state (variables) -----*/ 
 let board, history;
-let isPlayerWhite, winnerPresent, is2p;
+let isPlayerWhite, winnerPresent, is2p, counter;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
 cell.addEventListener('click', handleClick);
@@ -33,6 +33,7 @@ function play() {
     isPlayerWhite = true;
     winnerPresent = false;
     is2p = false;
+    counter = 0;
 }
 
 function reset() {
@@ -52,7 +53,7 @@ function cpuPlay() {
     winnerPresent = false;
     clearBoard();
 
-    
+
 }
 
 function handleClick(evt) {
@@ -66,11 +67,12 @@ function handleClick(evt) {
             } else {
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'W';
+                counter++;
                 history.push(board.map(inner => inner.slice())); 
                 render1(idxArr);
                 checkWhiteWin(idxArr[0], idxArr[1]);
                 if(winnerPresent) {
-                    document.querySelector('.win').innerHTML = '<span class="dsp">White Win!</span>';
+                    document.querySelector('.win').innerHTML = `<span class="dsp">White Wins in ${counter} turns!</span>`;
                     return;
                 }
                 isPlayerWhite = false;
@@ -83,11 +85,12 @@ function handleClick(evt) {
             } else {
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'B';
+                counter++;
                 history.push(board.map(inner => inner.slice())); 
                 render2(idxArr);
                 checkBlackWin(idxArr[0], idxArr[1]);
                 if(winnerPresent) {
-                    document.querySelector('.win').innerHTML = '<span class="dsp">Black Win!</span>';
+                    document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
                     return;
                 }
                 isPlayerWhite = true;
