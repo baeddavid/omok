@@ -1,19 +1,57 @@
-let board = [
-    [null,null,null,null,null,null,null,null,null,null], //0
-    [null,null,null,null,null,null,null,null,null,null], //1
-    [null,null,'W',null,null,null,null,null,'B',null], //2
-    [null,null,null,'B',null,null,null,'B',null,null], //3
-    [null,null,null,null,'W',null,'B',null,null,null], //4
-    [null,null,null,null,null,'B',null,null,null,null], //5
-    [null,null,null,null,'B',null,'W',null,null,null], //6
-    [null,null,null,'W',null,null,null,'W',null,null], //7
-    [null,null,null,null,null,null,null,null,'B',null], //8
-    [null,null,null,null,null,null,null,null,null,null], //9
-  ];
-  
-
+/*----- app's state (variables) -----*/ 
+let board;
+let isPlayerWhite, winnerPresent;
+/*----- event listeners -----*/ 
+let cell = document.querySelector('section.playable');
+cell.addEventListener('click', handleClick);
 /*----- functions -----*/
 // Function that checks if player Black has a winning move
+play();
+
+function play() {
+    board = [
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null], //9
+        ];
+    isPlayerWhite = true;
+    winnerPresent = false;
+}
+
+function handleClick(evt) {
+    let idx = evt.target.id;
+    let idxArr = cleanIdx(idx);
+    if(isPlayerWhite) {
+        if(board[idxArr[0]][idxArr[1]] != null) {
+            alert('TILE HAS BEEN CHOSEN');
+            return;
+        } else {
+            board[idxArr[0]][idxArr[1]] = 'W';
+            render1(idxArr);
+            checkWhiteWin(idxArr[0], idxArr[1]);
+            isPlayerWhite = false;
+        }
+    } else {
+        if(board[idxArr[0]][idxArr[1]] != null) {
+            alert('TILE HAS BEEN CHOSEN');
+            return;
+        } else {
+            board[idxArr[0]][idxArr[1]] = 'B';
+            render2(idxArr);
+            checkBlackWin(idxArr[0], idxArr[1]);
+            isPlayerWhite = true;
+        }
+    }
+}
+//1de9b6
+function render1(idxArr) {
+    let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
+    marker.style.backgroundColor = '#AFEEEE';  
+}
+
+function render2(idxArr) {
+    let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
+    marker.style.backgroundColor = 'black';  
+}
+
 function checkBlackWin(row, col) {
     // Check Row Right
     let counterB = 0;
@@ -22,8 +60,12 @@ function checkBlackWin(row, col) {
             counterB++;
         else if(board[row][i] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }
+            
     }
     // Check Row Left
     for(let i = col - 1; i >= 0; i--) {
@@ -31,8 +73,11 @@ function checkBlackWin(row, col) {
             counterB++;
         else if(board[row][i] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }
     }
     
     // Check Col Down
@@ -42,8 +87,11 @@ function checkBlackWin(row, col) {
             counterB++; 
         else if(board[i][col] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }
     }
     // Check Col Up
     for(let i = row - 1; i >= 0; i--) {
@@ -51,8 +99,11 @@ function checkBlackWin(row, col) {
             counterB++;
         else if(board[i][col] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }
     }
   // Check Lower Diag
     counterB = 0;
@@ -61,8 +112,11 @@ function checkBlackWin(row, col) {
             counterB++;
         else if(board[i][j] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }
     }
     
     // Check Upper Diag
@@ -71,8 +125,11 @@ function checkBlackWin(row, col) {
             counterB++;
         else if(board[i][j] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }
     }
     // Check Upper Anti-Diag
       counterB = 0;
@@ -81,8 +138,11 @@ function checkBlackWin(row, col) {
             counterB++;
         else if(board[i][j] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';    
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }  
     }
     // Check Lower Anti-Diag
     for(let i = row + 1, j = col + 1; i < board.length; i++, j++) {
@@ -90,8 +150,11 @@ function checkBlackWin(row, col) {
             counterB++;
         else if(board[i][j] != 'B')
             break;
-        if(counterB == 5)
-            return 'BLACK WIN';     
+        if(counterB == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('BLACK WIN');
+            winnerPresent = true;
+        }  
     }  
   }
 // Function that checks if player White has a winning move  
@@ -103,8 +166,11 @@ function checkWhiteWin(row, col) {
             counterW++;
         else if(board[row][i] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        } 
     }
     // Check Row Left
     for(let i = col - 1; i >= 0; i--) {
@@ -112,8 +178,11 @@ function checkWhiteWin(row, col) {
             counterW++;
         else if(board[row][i] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        } 
     }
     
     // Check Col Down
@@ -123,8 +192,11 @@ function checkWhiteWin(row, col) {
             counterW++; 
         else if(board[i][col] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        } 
     }
     // Check Col Up
     for(let i = row - 1; i >= 0; i--) {
@@ -132,8 +204,11 @@ function checkWhiteWin(row, col) {
             counterW++;
         else if(board[i][col] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        } 
     }
     
     // Check Lower Diag
@@ -143,8 +218,11 @@ function checkWhiteWin(row, col) {
             counterW++;
         else if(board[row][col] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        } 
     }
     
     // Check Upper Diag
@@ -153,8 +231,11 @@ function checkWhiteWin(row, col) {
             counterW++;
         else if(board[row][col] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        } 
     }
     // Check Upper Anti-Diag
       counterW = 0;
@@ -163,8 +244,11 @@ function checkWhiteWin(row, col) {
             counterW++;
         else if(board[i][j] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';    
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        } 
     }
     // Check Lower Anti-Diag
     for(let i = row + 1, j = col + 1; i < board.length; i++, j++) {
@@ -172,7 +256,28 @@ function checkWhiteWin(row, col) {
             counterW++;
         else if(board[i][j] != 'W')
             break;
-        if(counterW == 5)
-            return 'WHITE WIN';     
+        if(counterW == 5) {
+            cell.removeEventListener('click', handleClick);
+            console.log('WHITE WIN');
+            winnerPresent = true;
+        }   
     }
   }
+
+function cleanIdx(idxString) {
+    idxString = idxString.substring(1);
+    let idxArr = [], idx = '', i = 0, j;
+    while(idxString.charAt(i) != 'r') {
+        idx += idxString.charAt(i++);
+        j = i;
+    }
+    idxArr.push(parseInt(idx));
+    idx = '';
+    j++;
+    
+    while(j < idxString.length)
+        idx += idxString.charAt(j++);
+        
+    idxArr.push(parseInt(idx));
+    return idxArr;
+}

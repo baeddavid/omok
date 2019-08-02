@@ -1,0 +1,78 @@
+
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+h1 {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+}
+
+h2 {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #14bdac;
+  }
+
+  button {
+      background-color: #14bdac;
+      width: 50;
+      height: 25px;
+      color: white;
+      border: none;
+      font-size: 25px;
+      margin-bottom: 5px;
+      margin-top: 10px;
+  }
+
+#reset {
+    margin-top: 5px;
+}
+
+.playable {
+    background-color: #14bdac;
+}
+
+.mrk {
+  color: white;
+  text-align: center;
+  font-size: 110px;
+  margin-bottom: 10px;
+}
+
+.dsp {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    font-size: 45px;
+    
+}
+
+section.playable {
+    display: grid;
+    grid-template-columns: repeat(19, 3vmin);
+    grid-template-rows: repeat(19, 3vmin);
+    border-radius: 5%;
+    grid-gap: 1px;
+  }
+
+section.playable div {
+    border: 1px solid black;
+    border-radius: 10%;
+    background-color: #0da192;
+  }
+
+section.playable :hover {
+    background-color: aquamarine !important;
+    cursor: pointer;
+  }
