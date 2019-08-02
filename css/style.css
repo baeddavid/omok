@@ -17,16 +17,6 @@ h2 {
     color: white;
 }
 
-/* body {
-    height: 100vh;
-    margin: 0;
-    display: grid;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    background-color: #BAD7F2;
-} */
-
 body {
     height: 100vh;
     margin: 0;
@@ -48,8 +38,9 @@ button {
     margin-top: 10px;
 }
 
-button :hover {
-    color: black;
+button:hover {
+    color: rgb(38, 189, 98);
+    text-decoration: underline;
 }
 
 section.playable {
@@ -59,17 +50,6 @@ section.playable {
     border-radius: 5%;
     grid-gap: 1px;
 }
-
-/* section.leftBar {
-    display: inline-grid;
-    color: white;
-    position: absolute;
-    left: 100px;
-    bottom: 150px;
-    font-size: 25px;
-    border: 2px solid #565264;
-    justify-items: center;
-} */
 
 section.leftBar {
     display: grid;
@@ -176,6 +156,6 @@ section.leftBar label {
 
  #reset {
     margin-top: 5px;
-    margin-left: 45%;
+    margin-left: 47%;
     width: 200px;
 }

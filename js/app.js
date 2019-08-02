@@ -76,7 +76,7 @@ function handleClick(evt) {
                     return;
                 }
                 isPlayerWhite = false;
-                document.querySelector('.player').innerHTML = '<span class="etc">Player: Black</span>'
+                document.querySelector('.player').innerHTML = '<span class="etc">Player: Black\'s turn</span>'
             }
         } else {
             if(board[idxArr[0]][idxArr[1]] != null) {
@@ -94,7 +94,7 @@ function handleClick(evt) {
                     return;
                 }
                 isPlayerWhite = true;
-                document.querySelector('.player').innerHTML = 'Player: White'
+                document.querySelector('.player').innerHTML = 'Player: White\'s turn'
             }
         }
     }
