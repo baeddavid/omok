@@ -8,8 +8,17 @@ cell.addEventListener('click', handleClick);
 let rst = document.getElementById('reset');
 rst.addEventListener('click', reset);
 
-let section = document.querySelector('div.mv5');
-section.addEventListener('click', replay5);
+let mv5 = document.querySelector('div.mv5');
+mv5.addEventListener('click', replay5);
+
+let mv10 = document.querySelector('div.mv10');
+mv10.addEventListener('click', replay10);
+
+let mv15 = document.querySelector('div.mv15');
+mv15.addEventListener('click', replay15);
+
+let mvA = document.querySelector('div.mvA');
+mvA.addEventListener('click', replayA);
 /*----- functions -----*/
 // Function that checks if player Black has a winning move
 play();
@@ -90,11 +99,55 @@ function render2(idxArr) {
 
 function replay5() {
     clearBoard();
-    renderBoard(history[history.length - 6]);
+    let startIndex = history.length - 6;
+    if(startIndex < 0)
+        startIndex = 0;
+    renderBoard(history[startIndex]);
 
     let interval = 550;
-    let startIndex = history.length - 6;
     for(let i = startIndex, j = 0; i < history.length; i++, j++) {
+        setTimeout(function() {
+            renderBoard(history[i]);
+        },j * interval);
+    }
+}
+
+function replay10() {
+    clearBoard();
+    let startIndex = history.length - 11;
+    if(startIndex < 0)
+        startIndex = 0;
+    renderBoard(history[startIndex]);
+    
+    let interval = 550;
+    for(let i = startIndex, j = 0; i < history.length; i++, j++) {
+        setTimeout(function() {
+            renderBoard(history[i]);
+        },j * interval);
+    }
+}
+
+function replay15() {
+    clearBoard();
+    let startIndex = history.length - 16;
+    if(startIndex < 0)
+        startIndex = 0;
+    renderBoard(history[startIndex]);
+    
+    let interval = 550;
+    for(let i = startIndex, j = 0; i < history.length; i++, j++) {
+        setTimeout(function() {
+            renderBoard(history[i]);
+        },j * interval);
+    }
+}
+
+function replayA() {
+    clearBoard();
+    renderBoard(history[0]);
+    
+    let interval = 550;
+    for(let i = 0, j = 0; i < history.length; i++, j++) {
         setTimeout(function() {
             renderBoard(history[i]);
         },j * interval);
