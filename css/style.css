@@ -8,6 +8,7 @@
 h1 {
     font-family: 'Quicksand', sans-serif;
     color: white;
+    height: 1vh;
 }
 
 h2 {
@@ -60,11 +61,19 @@ body {
 
 section.playable {
     display: grid;
-    grid-template-columns: repeat(19, 3vmin);
-    grid-template-rows: repeat(19, 3vmin);
+    grid-template-columns: repeat(19, 3vh);
+    grid-template-rows: repeat(19, 3vh);
     border-radius: 5%;
     grid-gap: 1px;
   }
+
+    section.rightBar {
+    color: white;
+    position: absolute; 
+    right: 125px;
+    font-size: 25px;
+    justify-content: center;
+}
 
 section.playable div {
     border: 1px solid black;
@@ -73,6 +82,13 @@ section.playable div {
   }
 
 section.playable :hover {
-    background-color: #B1ABB4 !important;
+    background-color: #706677;
     cursor: pointer;
   }
+
+  .header {
+      text-decoration: underline;
+  }
+
+
+

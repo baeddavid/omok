@@ -1,5 +1,5 @@
 /*----- app's state (variables) -----*/ 
-let board;
+let board, history;
 let isPlayerWhite, winnerPresent;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
@@ -7,6 +7,9 @@ cell.addEventListener('click', handleClick);
 
 let rst = document.getElementById('reset');
 rst.addEventListener('click', reset);
+
+let section = document.querySelector('div.mv5');
+section.addEventListener('click', replay5);
 /*----- functions -----*/
 // Function that checks if player Black has a winning move
 play();
@@ -15,6 +18,7 @@ function play() {
     board = [
         [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null], //9
         ];
+    history = [];
     isPlayerWhite = true;
     winnerPresent = false;
 }
@@ -24,12 +28,7 @@ function reset() {
     document.querySelector('.win').innerHTML = '';
     document.querySelector('.player').innerHTML = 'Player: White';
     cell.addEventListener('click', handleClick);
-    for(let i = 0; i < board.length; i++) {
-        for(let j = 0; j < board.length; j++) {
-            let tCell = document.getElementById(`c${i}r${j}`);
-            tCell.style.backgroundColor = "#565264";
-        }
-    }
+    clearBoard();
 }
 
 function handleClick(evt) {
@@ -41,6 +40,7 @@ function handleClick(evt) {
             return;
         } else {
             board[idxArr[0]][idxArr[1]] = 'W';
+            history.push(board.map(inner => inner.slice())); 
             render1(idxArr);
             checkWhiteWin(idxArr[0], idxArr[1]);
             if(winnerPresent) {
@@ -56,6 +56,7 @@ function handleClick(evt) {
             return;
         } else {
             board[idxArr[0]][idxArr[1]] = 'B';
+            history.push(board.map(inner => inner.slice())); 
             render2(idxArr);
             checkBlackWin(idxArr[0], idxArr[1]);
             if(winnerPresent) {
@@ -67,7 +68,16 @@ function handleClick(evt) {
         }
     }
 }
-//1de9b6
+
+function clearBoard() {
+    for(let i = 0; i < board.length; i++) {
+        for(let j = 0; j < board.length; j++) {
+            let tCell = document.getElementById(`c${i}r${j}`);
+            tCell.style.backgroundColor = "#565264";
+        }
+    }
+}
+
 function render1(idxArr) {
     let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
     marker.style.backgroundColor = '#ECF4FB';  
@@ -76,6 +86,30 @@ function render1(idxArr) {
 function render2(idxArr) {
     let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
     marker.style.backgroundColor = '#111416';  
+}
+
+function replay5() {
+    clearBoard();
+    renderBoard(history[history.length - 6]);
+
+    let interval = 550;
+    let startIndex = history.length - 6;
+    for(let i = startIndex, j = 0; i < history.length; i++, j++) {
+        setTimeout(function() {
+            renderBoard(history[i]);
+        },j * interval);
+    }
+}
+
+function renderBoard(gameState) {
+    for(let i = 0; i < gameState.length; i++) {
+        for(let j = 0; j < gameState.length; j++) {
+            if(gameState[i][j] == 'W')
+                render1([i,j]);
+            else if(gameState[i][j] == 'B')
+                render2([i,j]);
+        }
+    }
 }
 
 function checkBlackWin(row, col) {
@@ -291,6 +325,8 @@ function checkWhiteWin(row, col) {
   }
 
 function cleanIdx(idxString) {
+    if(idxString == null)
+        return;
     idxString = idxString.substring(1);
     let idxArr = [], idx = '', i = 0, j;
     while(idxString.charAt(i) != 'r') {
