@@ -159,6 +159,8 @@ section.leftBar label {
 
 #note {
     font-size: 15px;
+    margin: auto;
+    padding: 0 10px 0 10px;
 }
 
  #container {

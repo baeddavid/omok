@@ -19,6 +19,11 @@ mv15.addEventListener('click', replay15);
 
 let mvA = document.querySelector('button.mvA');
 mvA.addEventListener('click', replayA);
+
+let cpu = document.getElementById('CPU');
+cpu.addEventListener('click',function() {
+    console.log('f');
+})
 /*----- functions -----*/
 play();
 
