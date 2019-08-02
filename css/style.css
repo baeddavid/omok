@@ -68,7 +68,7 @@ section.playable div {
   }
 
 section.playable :hover {
-    background-color: #706677;
+    background-color: #706677 !important;
     cursor: pointer;
   }
 
@@ -91,7 +91,7 @@ section.leftBar label {
 .title {
     display: flex;
     justify-content: center;
-    padding-left: 5px;
+    padding-left: 50px;
 }
 
 .header {
@@ -108,6 +108,7 @@ section.leftBar label {
 .player {
     display: flex;
     justify-content: center;
+    padding-left: 50px;
 }
 
 .playable {
