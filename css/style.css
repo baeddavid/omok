@@ -115,9 +115,8 @@ section.leftBar label {
 
 .player {
     display: flex;
-    padding-left: 50px;
+    padding-left: 70px;
     margin-top: 0;
-    margin-bottom: 10%;
     justify-content: center;
 }
 
@@ -167,6 +166,6 @@ section.leftBar label {
 
  #reset {
     margin-top: 5px;
-    margin-left: 47%;
+    margin-left: 50%;
     width: 200px;
 }

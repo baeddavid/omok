@@ -39,8 +39,6 @@ function play() {
     counter = 0;
     timer = 15;
     turns = [true, false];
-    if(!winnerPresent)
-        clearInterval(timerId);
 }
 
 function reset() {
@@ -62,6 +60,8 @@ function countDown() {
             document.querySelector('.player').innerHTML = '<span class="etc">Player: Black\'s Turn</span>'
     } else if(timer > -1)
         time.innerHTML = timer--;
+    if(winnerPresent == true)
+        clearInterval(timerId);    
 }
 
 function cpuPlay() {
