@@ -1,6 +1,6 @@
 /*----- app's state (variables) -----*/ 
 let board, history, timer;
-let isPlayerWhite, winnerPresent, is2p, counter, turns;
+let isPlayerWhite, winnerPresent, is2p, counter;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
 cell.addEventListener('click', handleClick);
@@ -38,7 +38,6 @@ function play() {
     is2p = true;
     counter = 0;
     timer = 15;
-    turns = [true, false];
 }
 
 function reset() {
@@ -71,6 +70,7 @@ function cpuPlay() {
     history = [];
     isPlayerWhite = true;
     winnerPresent = false;
+    is2p = false;
     clearBoard();
 }
 

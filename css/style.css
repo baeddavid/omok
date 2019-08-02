@@ -45,6 +45,7 @@ button:hover {
 }
 
 section.playable {
+    margin-top: 5%; 
     display: grid;
     grid-template-columns: repeat(19, 3vh);
     grid-template-rows: repeat(19, 3vh);
@@ -92,7 +93,7 @@ section.leftBar label {
 .title {
     display: flex;
     justify-content: center;
-    padding-left: 50px;
+    padding-left: 100px;
 }
 
 .header {
@@ -109,7 +110,7 @@ section.leftBar label {
 #timer {
     display: flex;
     justify-content: center;
-    padding-left: 50px;
+    padding-left: 75px;
     margin-bottom: 0;
 }
 
@@ -127,6 +128,7 @@ section.leftBar label {
 .win {
     display: flex;
     justify-content: center;
+    padding-left: 20px;
 }
 
 .mrk {
