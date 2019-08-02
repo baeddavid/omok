@@ -1,6 +1,6 @@
 /*----- app's state (variables) -----*/ 
 let board, history, timer;
-let isPlayerWhite, winnerPresent, is2p, counter;
+let isPlayerWhite, winnerPresent, is2p, counter, turns;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
 cell.addEventListener('click', handleClick);
@@ -22,6 +22,9 @@ mvA.addEventListener('click', replayA);
 
 let cpu = document.getElementById('CPU');
 cpu.addEventListener('click',cpuPlay)
+
+let time = document.getElementById('countDown');
+let timerId = setInterval(countDown, 1000);
 /*----- functions -----*/
 play();
 
@@ -35,6 +38,7 @@ function play() {
     is2p = true;
     counter = 0;
     timer = 15;
+    turns = [true, false];
 }
 
 function reset() {
@@ -43,6 +47,19 @@ function reset() {
     document.querySelector('.player').innerHTML = 'Player: White';
     cell.addEventListener('click', handleClick);
     clearBoard();
+}
+
+function countDown() {
+    if(timer == -1) {
+        document.querySelector('.win').innerHTML = '<span class="dsp">OUT OF TIME!</span>';
+        timer = 15;
+        isPlayerWhite = !isPlayerWhite;
+        if(isPlayerWhite)
+            document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
+        else
+            document.querySelector('.player').innerHTML = '<span class="etc">Player: Black\'s Turn</span>'
+    } else if(timer > -1)
+        time.innerHTML = timer--;
 }
 
 function cpuPlay() {
@@ -66,6 +83,7 @@ function handleClick(evt) {
             } else {
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'W';
+                timer = 15;
                 counter++;
                 history.push(board.map(inner => inner.slice())); 
                 render1(idxArr);
@@ -75,7 +93,7 @@ function handleClick(evt) {
                     return;
                 }
                 isPlayerWhite = false;
-                document.querySelector('.player').innerHTML = '<span class="etc">Player: Black\'s turn</span>'
+                document.querySelector('.player').innerHTML = '<span class="etc">Player: Black\'s Turn</span>'
             }
         } else {
             if(board[idxArr[0]][idxArr[1]] != null) {
@@ -84,6 +102,7 @@ function handleClick(evt) {
             } else {
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'B';
+                timer = 15;
                 counter++;
                 history.push(board.map(inner => inner.slice())); 
                 render2(idxArr);
@@ -93,7 +112,7 @@ function handleClick(evt) {
                     return;
                 }
                 isPlayerWhite = true;
-                document.querySelector('.player').innerHTML = 'Player: White\'s turn'
+                document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
             }
         }
     }

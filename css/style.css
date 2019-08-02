@@ -49,7 +49,7 @@ section.playable {
     grid-template-columns: repeat(19, 3vh);
     grid-template-rows: repeat(19, 3vh);
     border-radius: 5%;
-    grid-gap: 1px;
+    grid-gap: 2px;
 }
 
 section.leftBar {
@@ -106,19 +106,19 @@ section.leftBar label {
 }
 
 
-.timer {
+#timer {
     display: flex;
-    justify-content: 50px;
+    justify-content: center;
     padding-left: 50px;
     margin-bottom: 0;
 }
 
 .player {
     display: flex;
-    justify-content: center;
     padding-left: 50px;
     margin-top: 0;
-    margin-bottom: 5%;
+    margin-bottom: 10%;
+    justify-content: center;
 }
 
 .playable {
