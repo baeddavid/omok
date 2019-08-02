@@ -20,7 +20,6 @@ mv15.addEventListener('click', replay15);
 let mvA = document.querySelector('div.mvA');
 mvA.addEventListener('click', replayA);
 /*----- functions -----*/
-// Function that checks if player Black has a winning move
 play();
 
 function play() {
@@ -45,9 +44,10 @@ function handleClick(evt) {
     let idxArr = cleanIdx(idx);
     if(isPlayerWhite) {
         if(board[idxArr[0]][idxArr[1]] != null) {
-            alert('TILE HAS BEEN CHOSEN');
+            document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
             return;
         } else {
+            document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
             board[idxArr[0]][idxArr[1]] = 'W';
             history.push(board.map(inner => inner.slice())); 
             render1(idxArr);
@@ -61,9 +61,10 @@ function handleClick(evt) {
         }
     } else {
         if(board[idxArr[0]][idxArr[1]] != null) {
-            alert('TILE HAS BEEN CHOSEN');
+            document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
             return;
         } else {
+            document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
             board[idxArr[0]][idxArr[1]] = 'B';
             history.push(board.map(inner => inner.slice())); 
             render2(idxArr);
@@ -164,7 +165,7 @@ function renderBoard(gameState) {
         }
     }
 }
-
+// Function that checks if player Black has a winning move
 function checkBlackWin(row, col) {
     // Check Row Right
     let counterB = 0;
@@ -269,7 +270,7 @@ function checkBlackWin(row, col) {
             winnerPresent = true;
         }  
     }  
-  }
+}
 // Function that checks if player White has a winning move  
 function checkWhiteWin(row, col) {
     // Check Row Right
@@ -375,7 +376,7 @@ function checkWhiteWin(row, col) {
             winnerPresent = true;
         }   
     }
-  }
+}
 
 function cleanIdx(idxString) {
     if(idxString == null)

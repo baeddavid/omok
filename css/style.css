@@ -67,12 +67,20 @@ section.playable {
     grid-gap: 1px;
   }
 
-    section.rightBar {
+section.rightBar {
     color: white;
     position: absolute; 
     right: 125px;
     font-size: 25px;
     justify-content: center;
+}
+
+section.leftBar {
+    color: white;
+    position: absolute;
+    left: 125px;
+    bottom: 405px;
+    font-size: 25px;
 }
 
 section.playable div {
@@ -88,6 +96,10 @@ section.playable :hover {
 
   .header {
       text-decoration: underline;
+  }
+
+  #note {
+      font-size: 15px;
   }
 
 
