@@ -591,8 +591,109 @@ function getPLS() {
     return objPLS;
 }
 
+function idxArrPLS() {
+    let start = getPLS().plsIdx;
+    let count = getPLS().plsVal;
+    let counterPLS = 0;
+    let arrPLS = [];
+
+    // Check row if row's pls is equal to the pls of board
+    for(let i = start[1]; i < board.length; i++) {
+        if(board[start[0]][i] == 'W') {
+            counterPLS++;
+            arrPLS.push([start[0], i])
+        }
+        else if(board[start[0]][i] != 'W')
+            break;    
+    } 
+    for(let i = start[1] - 1; i >= 0; i--) {
+        if(board[start[0]][i] == 'W') {
+            counterPLS++;
+            arrPLS.push([start[0], i])
+        }
+        else if(board[start[0]][i] != 'W') 
+            break;
+    }
+    if(counterPLS == count)
+        return arrPLS;
+    console.log('here1')
+    // Reset pls array and counter
+    while(arrPLS.length > 0)
+        arrPLS.pop();
+    counterPLS = 0;
+
+    // Check col if col's pls is equal to the pls of board
+    for(let i = start[0]; i < board.length; i++) {
+        if(board[i][start[1]] == 'W') {
+            counterPLS++; 
+            arrPLS.push([i, start[1]]);
+        }
+        else if(board[i][start[1]] != 'W')
+            break;
+    }    
+    for(let i = start[0] - 1; i >= 0; i--) {
+        if(board[i][start[1]] == 'W') {
+            counterPLS++;
+            arrPLS.push([i, start[1]]);
+        }
+        else if(board[i][start[1]] != 'W')
+            break;
+    }
+    if(counterPLS = count)
+        return arrPLS;
+
+    // Reset pls array and counter
+    while(arrPLS.length > 0)
+        arrPLS.pop();
+    counterPLS = 0;  
+    // Check diag if diag's pls is equal to pls of board
+    for(let i = start[0], j = start[1]; i < board.length; i++, j--) {
+        if(board[i][j] == 'W') {
+            counterPLS++;
+            arrPLS.push([i, j]);
+        }
+        else if(board[i][j] != 'W')
+            break;
+    }
+    for(let i = start[0] - 1, j = start[1] + 1; i >= 0; i--, j++) {
+        if(board[i][j] == 'W') {
+            counterPLS++;
+            arrPLS.push([i, j]);
+        }
+            else if(board[i][j] != 'W')
+                break;
+    }
+    if(counterPLS = count)
+        return arrPLS;
+
+    while(arrPLS.length > 0)
+        arrPLS.pop();
+    counterPLS = 0;  
+    // Check anti-diag's pls is equal to pls of board
+    for(let i = start[0], j = start[1]; i >= 0; i--, j--) {
+        if(board[i][j] == 'W') {
+            counterPLS++;
+            arrPLS.push([i, j])
+        }
+        else if(board[i][j] != 'W')
+            break;
+    }
+    for(let i = start[0] + 1, j = start[1] + 1; i < board.length; i++, j++) {
+        if(board[i][j] == 'W') {
+            counterPLS++;
+            arrPLS.push([i, j])
+        }
+        else if(board[i][j] != 'W')
+            break;
+    }
+    if(counterPLS = count)
+        return arrPLS;
+}
+
 function defensiveAction() {
     let plsPos = getPLS().plsIdx;
+    let plsCounter = getPLS().plsVal;
+    let boolPlayedMove = false;
     // Check Row right
-    for(let i = plsPos[])
+
 }
