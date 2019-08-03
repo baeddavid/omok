@@ -72,6 +72,7 @@ function cpuPlay() {
     isPlayerWhite = true;
     winnerPresent = false;
     is2p = false;
+    cls = 1;
     clearBoard();
 }
 
@@ -119,9 +120,45 @@ function handleClick(evt) {
                 document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
             }
         }
+    } else {
+        if(isPlayerWhite) {
+            if(board[idxArr[0]][idxArr[1]] != null) {
+                document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
+                return;
+            } else {
+                idxCache.push(idxArr);
+                document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
+                board[idxArr[0]][idxArr[1]] = 'W';
+                timer = 15;
+                counter++;
+                history.push(board.map(inner => inner.slice())); 
+                render1(idxArr);
+                checkWhiteWin(idxArr[0], idxArr[1]);
+                if(winnerPresent) {
+                    document.querySelector('.win').innerHTML = `<span class="dsp">White Wins in ${counter} turns!</span>`;
+                    return;
+                }
+                isPlayerWhite = false;
+                document.querySelector('.player').innerHTML = '<span class="etc">Player: Black\'s Turn</span>'
+            }
+            // CPU Action 
+            pls = getPLS().plsVal;
+            if(pls >= cls) {
+                defensiveAction();
+                counter++;
+                history.push(board.map(inner => inner.slice()));
+                isPlayerWhite = true;
+                document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
+            } else {
+                agressiveAction();
+                counter++;
+                history.push(board.map(inner => inner.slice()));
+                isPlayerWhite = true;
+                document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
+            }
+        }
     }
 }
-
 function clearBoard() {
     for(let i = 0; i < board.length; i++) {
         for(let j = 0; j < board.length; j++) {
@@ -443,8 +480,11 @@ function getPLS() {
     let counterPLS = 0;
     let tempPLS = 0;
     let blockLeft = false, blockRight = false;
-    let i = 1;
-    
+    let objPLS = {
+        plsVal: 0,
+        plsIdx: [],
+    };
+
     for(let cell of idxCache) {
         // Find the PLS in row
         counterPLS = 0;
@@ -466,13 +506,11 @@ function getPLS() {
                 break;
             }
         }
-        console.log(`row, `,`blocked left: ${blockLeft}, `, `blocked right: ${blockRight}, `,`current PLS: ${counterPLS},`, `loop: ${i}`);
         // If both left and right are blocked it is not a threat
         if(blockLeft && blockRight) counterPLS = 0;
         blockLeft = false, blockRight = false;
         // Store current PLS in case we find larger PLS
         tempPLS = counterPLS;
-
         counterPLS = 0;
         for(let i = cell[0]; i < board.length; i++) {
             if(board[i][cell[1]] == 'W')
@@ -493,7 +531,6 @@ function getPLS() {
                 break;
             }
         }
-        console.log(`col, `,`blocked left: ${blockLeft}, `, `blocked right: ${blockRight}, `,`current PLS: ${counterPLS},`, `loop: ${i}`);
         if(blockLeft && blockRight) counterPLS = 0;
         
         blockLeft = false, blockRight = false;
@@ -518,7 +555,6 @@ function getPLS() {
                     break;
             }
         }
-        console.log(`aDiag,`,`blocked left: ${blockLeft},`, `blocked right: ${blockRight}, `,`current PLS: ${counterPLS},`, `loop: ${i}`);
         if(blockLeft && blockRight) counterPLS = 0;
         
         blockLeft = false, blockRight = false;
@@ -526,8 +562,11 @@ function getPLS() {
 
         counterPLS = 0;
         for(let i = cell[0], j = cell[1]; i >= 0; i--, j--) {
-            if(board[i][j] == 'W')
+            if(board[i][j] == 'W') {
                 counterPLS++;
+                objPLS.plsIdx[0] = i;
+                objPLS.plsIdx[1] = j;
+            }
             else if(board[i][j] != 'W') {
                 if(board[i][j] == 'B')
                     blockLeft = true;
@@ -544,11 +583,16 @@ function getPLS() {
                 break;
             }
         }
-        console.log(`diag,`,`blocked left: ${blockLeft}, `, `blocked right: ${blockRight}, `,`current PLS: ${counterPLS},`, `loop: ${i}`);
         if(blockLeft && blockRight) counterPLS = 0;
         blockLeft = false, blockRight = false;
-        tempPLS = Math.max(counterPLS, tempPLS);
-        i++;
+        tempPLS = Math.max(counterPLS, tempPLS); 
+        objPLS.plsVal = tempPLS;
     }
-    return tempPLS;
+    return objPLS;
+}
+
+function defensiveAction() {
+    let plsPos = getPLS().plsIdx;
+    // Check Row right
+    for(let i = plsPos[])
 }
