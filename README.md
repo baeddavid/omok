@@ -1,4 +1,4 @@
-#오목
+# 오목
 
 Omok, 오목, Chinese Checkers, GO, is an abstract strategy board game. The rule is simple. First player to have 5 pieces in a row wins.
 
@@ -38,7 +38,7 @@ Two key algorithms
 * The rules for it's implementation are as follows → 
   1. When a player places a piece, scan the board.
   2. If during the scan the Player's Longest Sequence(PLS) is greater than the Computer's Longest Sequnce(CLS) and is not completely blocked call the `defensiveAction()` algorithm. 
-    * The `defensiveAction()` algorithm places a piece at either end of the PLS.
+     * The `defensiveAction()` algorithm places a piece at either end of the PLS.
   3. If the CLS is greater than the PLS, call the `agressiveAction()` algorithm.
-    * The `agressiveAction()` algorithm places a piece at either end of CLS.
+     * The `agressiveAction()` algorithm places a piece at either end of CLS.
   4. Continue playing until either the player wins or the computer wins.
