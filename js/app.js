@@ -219,8 +219,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             console.log('BLACK WIN');
             winnerPresent = true;
-        }
-            
+        }     
     }
     // Check Row Left
     for(let i = col - 1; i >= 0; i--) {
@@ -273,7 +272,6 @@ function checkBlackWin(row, col) {
             winnerPresent = true;
         }
     }
-    
     // Check Upper Diag
     for(let i = row - 1, j = col + 1; i >= 0; i--, j++) {
         if(board[i][j] == 'B')
