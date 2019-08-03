@@ -1,6 +1,6 @@
 /*----- app's state (variables) -----*/ 
-let board, history, timer;
-let isPlayerWhite, winnerPresent, is2p, counter;
+let board, history, timer, idxCache;
+let isPlayerWhite, winnerPresent, is2p, counter, pls, cls;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
 cell.addEventListener('click', handleClick);
@@ -38,6 +38,7 @@ function play() {
     is2p = true;
     counter = 0;
     timer = 15;
+    idxCache = [];
 }
 
 function reset() {
@@ -77,6 +78,7 @@ function cpuPlay() {
 function handleClick(evt) {
     let idx = evt.target.id;
     let idxArr = cleanIdx(idx);
+    idxCache.push(idxArr);
     if(is2p) {
         if(isPlayerWhite) {
             if(board[idxArr[0]][idxArr[1]] != null) {
@@ -437,3 +439,83 @@ function cleanIdx(idxString) {
     return idxArr;
 }
 
+function getPLS() {
+    let idxArr = idxCache[0];
+    let counterPLS = 0;
+    let tempPLS = 0;
+    let blockLeft = false, blockRight = false;
+    // Find the PLS in row
+    for(let i = idxArr[1]; i < board.length; i++) {
+        if(board[idxArr[0]][i] == 'W')
+            counterPLS++;
+        else if(board[idxArr[0]][i] != 'W') {
+            if(board[idxArr[0]][i] == 'B')
+                blockRight = true;
+            break;    
+        }
+    }
+    for(let i = idxArr[1] - 1; i >= 0; i--) {
+        if(board[idxArr[0]][i] == 'W')
+            counterPLS++;
+        else if(board[idxArr[0]][i] != 'W') {
+            if(board[idxArr[0]][i] == 'B')
+                blockLeft = true;
+            break;
+        }
+    }
+    // If both left and right are blocked it is not a threat
+    if(blockLeft && blockRight) counterPLS = 0;
+    blockLeft = false, blockRight = false;
+    // Store current PLS in case we find larger PLS
+    tempPLS = counterPLS;
+
+    counterPLS = 0;
+    for(let i = idxArr[0]; i < board.length; i++) {
+        if(board[i][idxArr[1]] == 'W')
+            counterPLS++; 
+        else if(board[i][idxArr[1]] != 'W') {
+            if(board[i][idxArr[1]] == 'B')
+                blockLeft = true;
+            break;
+        }
+    }
+
+    for(let i = idxArr[0] - 1; i >= 0; i--) {
+        if(board[i][idxArr[1]] == 'W')
+            counterPLS++;
+        else if(board[i][idxArr[1]] != 'W') {
+            if(board[i][idxArr[1]] == 'B')
+                blockRight = true;
+            break;
+        }
+    }
+    if(blockLeft && blockRight) counterPLS = 0;
+    
+    blockLeft = false, blockRight = false;
+    tempPLS = Math.max(counterPLS, tempPLS);
+
+    counterPLS = 0;
+    for(let i = idxArr[0], j = idxArr[1]; i < board.length; i++, j--) {
+        if(board[i][j] == 'W')
+            counterPLS++;
+        else if(board[i][j] != 'W') {
+            if(board[i][j] == 'B')
+                blockLeft = true;
+            break;
+        }
+    }
+    for(let i = idxArr[0] - 1, j = idxArr[1] + 1; i >= 0; i--, j++) {
+        if(board[i][j] == 'W')
+            counterPLS++;
+            else if(board[i][j] != 'W') {
+                if(board[i][j] == 'B')
+                    blockRight = true;
+                break;
+        }
+    }
+    if(blockLeft && blockRight) counterPLS = 0;
+    
+    blockLeft = false, blockRight = false;
+    tempPLS = Math.max(counterPLS, tempPLS);
+    return tempPLS;
+}
