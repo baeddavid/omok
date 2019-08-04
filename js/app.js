@@ -654,6 +654,8 @@ function defensiveAction() {
             console.log('i fucked up')
             break;
         case 'R':
+            plsArr = plsArr.sort((a,b) => a[1] - b[1]);
+            console.log(plsArr)
             let left = plsArr[0];
             let right = plsArr[plsArr.length - 1];
             if(board[left[0]][left[1] - 1] == null) {
@@ -665,7 +667,8 @@ function defensiveAction() {
             }
             break;
         case 'C':
-
+            plsArr = plsArr.sort((a,b) => a[0] - b[0]);
+            console.log(plsArr)
             let top = plsArr[0];
             let bottom = plsArr[plsArr.length - 1];
             if(board[top[0] - 1][top[1]] == null) {
@@ -679,6 +682,8 @@ function defensiveAction() {
             }
             break;
         case 'AD':
+            plsArr = plsArr.sort((a,b) => a[0] - b[0]);
+            console.log(plsArr)
             let topLeft = plsArr[0];
             let bottomRight = plsArr[plsArr.length - 1];
             if(board[topLeft[0] - 1][topLeft[1] - 1] == null) {
@@ -690,6 +695,8 @@ function defensiveAction() {
             }
             break;
         case 'D':
+            plsArr = plsArr.sort((a,b) => a[0] - b[0]);
+            console.log(plsArr)
             let topRight = plsArr[0];
             let bottomLeft = plsArr[plsArr.length - 1];
             if(board[topRight[0] - 1][topRight[1] + 1] == null) {
