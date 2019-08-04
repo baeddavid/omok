@@ -72,7 +72,7 @@ function cpuPlay() {
     isPlayerWhite = true;
     winnerPresent = false;
     is2p = false;
-    cls = 1;
+    cls = 0;
     clearBoard();
 }
 
@@ -144,7 +144,9 @@ function handleClick(evt) {
             // CPU Action 
             pls = getPLS().plsVal;
             if(pls >= cls) {
+                // firstMove();
                 defensiveAction();
+                console.log('I MADE IT TO PLS > CLS')
                 counter++;
                 history.push(board.map(inner => inner.slice()));
                 isPlayerWhite = true;
@@ -159,6 +161,7 @@ function handleClick(evt) {
         }
     }
 }
+
 function clearBoard() {
     for(let i = 0; i < board.length; i++) {
         for(let j = 0; j < board.length; j++) {
@@ -476,6 +479,7 @@ function cleanIdx(idxString) {
     return idxArr;
 }
 
+// FIX BUG
 function getPLS() {
     let counterPLS = 0;
     let tempPLS = 0;
@@ -591,6 +595,7 @@ function getPLS() {
     return objPLS;
 }
 
+// FIX BUG
 function idxArrPLS() {
     let start = getPLS().plsIdx;
     let count = getPLS().plsVal;
@@ -616,7 +621,6 @@ function idxArrPLS() {
     }
     if(counterPLS == count)
         return arrPLS;
-    console.log('here1')
     // Reset pls array and counter
     while(arrPLS.length > 0)
         arrPLS.pop();
@@ -639,6 +643,7 @@ function idxArrPLS() {
         else if(board[i][start[1]] != 'W')
             break;
     }
+    
     if(counterPLS = count)
         return arrPLS;
 
@@ -678,7 +683,7 @@ function idxArrPLS() {
         else if(board[i][j] != 'W')
             break;
     }
-    for(let i = start[0] + 1, j = start[1] + 1; i < board.length; i++, j++) {
+    for(let i = start[0], j = start[1]; i < board.length; i++, j++) {
         if(board[i][j] == 'W') {
             counterPLS++;
             arrPLS.push([i, j])
@@ -690,10 +695,67 @@ function idxArrPLS() {
         return arrPLS;
 }
 
+// INCOMPLETE
 function defensiveAction() {
-    let plsPos = getPLS().plsIdx;
-    let plsCounter = getPLS().plsVal;
-    let boolPlayedMove = false;
-    // Check Row right
+    let boolTypePLS = -1;
+    let idxArr = idxArrPLS();
+    if(idxArr.length == 1) {
+        firstMove();
+        return;
+    }
+    let firstA = idxArr[0];
+    // Check if the PLS is a row
+    for(let i = 0; i < idxArr.length - 1; i++) 
+        if(idxArr[i][1] + 1 == idxArr[i + 1][1])
+            boolTypePLS = 1;
+    for(let i = idxArr.length - 1; i > 0; i--)
+        if(idxArr[i][1] == idxArr[i - 1][1] - 1)
+            boolTypePLS = 1;
 
+    // Check if the PLS is a col
+    for(let i = 0; i < idxArr.length - 1; i++)
+        if(idxArr[i][0] - 1 == idxArr[i + 1][0])
+            boolTypePLS = 2;
+    for(let i = idxArr.length - 1; i > 0; i--)
+        if(idxArr[i][0] - 1 == idxArr[i - 1][0])
+            boolTypePLS = 2;
+
+    switch(boolTypePLS) {
+        case 1:     
+            console.log('I MADE IT TO ROW')
+            if(board[firstA[0]][firstA[1] - 1] == null) {
+                board[firstA[0]][firstA[1] - 1] ='B';
+                render2([firstA[0], firstA[1] - 1]);
+                return;
+            }
+            if(board[firstA[0]][firstA[1] + 1] == null) {
+                board[firstA[0]][firstA[1] + 1] ='B';
+                render2([firstA[0], firstA[1] + 1]);
+                return;
+            }
+        case 2:
+            console.log('I MADE IT TO COL')
+            if(board[firstA[0] - 1][firstA[1]] == null) {
+                board[firstA[0] - 1][firstA[1]] ='B';
+                render2([firstA[0] - 1, firstA[1]]);
+                return;
+            }
+            if(board[firstA[0] + 1][firstA[1]] == null) {
+                board[firstA[0] + 1][firstA[1]] ='B';
+                render2([firstA[0] + 1, firstA[1]]);
+                return;
+            }
+    }
+    console.log('I DIDNT MAKE IT')
+}
+
+function firstMove() {
+    let firstIdx = idxArrPLS();
+    firstIdx = firstIdx[0];
+    let idx = 0;
+    if(board[firstIdx[idx]][firstIdx[1] + 1] != null)
+        while(board[firstIdx[idx]][firstIdx[1] + 1] != null)
+            idx++;
+    board[firstIdx[idx]][firstIdx[1] + 1] = 'B';
+    render2([firstIdx[idx], firstIdx[1] + 1]);
 }
