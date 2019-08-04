@@ -702,17 +702,6 @@ function defensiveAction() {
             break;
     }
 }
-// We need to remove this
-function firstMove() {
-    let firstIdx = idxArrPLS();
-    firstIdx = firstIdx[0];
-    let idx = 0;
-    if(board[firstIdx[idx]][firstIdx[1] + 1] != null)
-        while(board[firstIdx[idx]][firstIdx[1] + 1] != null)
-            idx++;
-    board[firstIdx[idx]][firstIdx[1] + 1] = 'B';
-    render2([firstIdx[idx], firstIdx[1] + 1]);
-}
 
 function filterArray(arr) {
     let tmp = [];
