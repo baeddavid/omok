@@ -39,7 +39,8 @@ Two key algorithms
 * The rules for the iterative AI are as follows → 
    1. The player is always white. 
    2. The computer's default value for Computer's Longest Sequence (CLS) is always 1.
-   3. When the player places a piece, look for the Player's Longest Sequence (PLS). 
+      * The Player's Longest Sequence (PLS) and CLS are defined as the longest subarray that has a value 𝓷, where 0 < 𝓷 < 5 and is not blocked on both sides by a piece of the opposite color.
+   3. When the player places a piece, look for the PLS. 
       * If the PLS is greater than the CLS call `defensiveAction()`.
          * `defensiveAction()` places a piece at the first available end of the PLS.
       * If the CLS is greather than the PLS call `agressiveAction()`.
