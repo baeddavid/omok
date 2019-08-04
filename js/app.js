@@ -477,6 +477,18 @@ function cleanIdx(idxString) {
     return idxArr;
 } 
 
+function filterArray(arr) {
+    let tmp = [];
+    let answer = arr.filter(function (v) {
+        if (tmp.indexOf(v.toString()) < 0) {
+            tmp.push(v.toString());
+            return v;
+        }
+    });
+    return answer;
+}
+/*----- CPU CODE -----*/ 
+// FIX UNDEFINED BUG
 function getPLS(evt) {
     let counterPLS = 0;
     let maxPLS = 0;
@@ -643,7 +655,7 @@ function getPLS(evt) {
     objPLS.plsIdx = objPLS.plsIdx.sort();
     return objPLS;
 }   
-// INCOMPLETE
+// INCOMPLETE -> FIX UNDEFINED IT IS LINKED TO GETPLS
 function defensiveAction() {
     let plsObj = plsCache[plsCache.length - 1];
     let plsArr = plsObj.plsIdx;
@@ -655,7 +667,6 @@ function defensiveAction() {
             break;
         case 'R':
             plsArr = plsArr.sort((a,b) => a[1] - b[1]);
-            console.log(plsArr)
             let left = plsArr[0];
             let right = plsArr[plsArr.length - 1];
             if(board[left[0]][left[1] - 1] == null) {
@@ -668,22 +679,18 @@ function defensiveAction() {
             break;
         case 'C':
             plsArr = plsArr.sort((a,b) => a[0] - b[0]);
-            console.log(plsArr)
             let top = plsArr[0];
             let bottom = plsArr[plsArr.length - 1];
             if(board[top[0] - 1][top[1]] == null) {
-                console.log('here1')
                 board[top[0] - 1][top[1]] = 'B';
                 render2([top[0] - 1, top[1]]);
             } else if(board[bottom[0] + 1][bottom[1]] == null) {
-                console.log('here2');
                 board[bottom[0] + 1][bottom[1]] = 'B';
                 render2([bottom[0] + 1, bottom[1]]);
             }
             break;
         case 'AD':
             plsArr = plsArr.sort((a,b) => a[0] - b[0]);
-            console.log(plsArr)
             let topLeft = plsArr[0];
             let bottomRight = plsArr[plsArr.length - 1];
             if(board[topLeft[0] - 1][topLeft[1] - 1] == null) {
@@ -696,7 +703,6 @@ function defensiveAction() {
             break;
         case 'D':
             plsArr = plsArr.sort((a,b) => a[0] - b[0]);
-            console.log(plsArr)
             let topRight = plsArr[0];
             let bottomLeft = plsArr[plsArr.length - 1];
             if(board[topRight[0] - 1][topRight[1] + 1] == null) {
@@ -710,13 +716,6 @@ function defensiveAction() {
     }
 }
 
-function filterArray(arr) {
-    let tmp = [];
-    let answer = arr.filter(function (v) {
-        if (tmp.indexOf(v.toString()) < 0) {
-            tmp.push(v.toString());
-            return v;
-        }
-    });
-    return answer;
+function getCLS() {
+    
 }

@@ -38,8 +38,8 @@ Two key algorithms
 * It is important to know that the iterative AI is not as efficient or "smart" as `minimax`. It is a "player-dependant" algorithm, meaning that if the player plays well, it will play well. If the player decides to randomly select squares it too will randomly defend squares rather than going for 5 in a row.
 * The rules for the iterative AI are as follows → 
    1. The player is always white. 
-   2. The computer's default value for Computer's Longest Sequence (CLS) is always 1.
-      * The Player's Longest Sequence (PLS) and CLS are defined as the longest subarray that has a value 𝓷, where 0 < 𝓷 < 5 and is not blocked on both sides by a piece of the opposite color.
+   2. The computer's default value for Computer's Longest Sequence is always 1.
+      * The Player's Longest Sequence (PLS) and Computer's Longest Sequence (CLS) are defined as the longest subarray that has a value 𝓷, where 0 < 𝓷 < 5 and is not blocked on both sides by a piece of the opposite color.
    3. When the player places a piece, look for the PLS. 
       * If the PLS is greater than the CLS call `defensiveAction()`.
          * `defensiveAction()` places a piece at the first available end of the PLS.
