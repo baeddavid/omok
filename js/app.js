@@ -479,7 +479,6 @@ function cleanIdx(idxString) {
     return idxArr;
 }
 
-// FIX BUG
 function getPLS() {
     let counterPLS = 0;
     let tempPLS = 0;
@@ -493,8 +492,11 @@ function getPLS() {
         // Find the PLS in row
         counterPLS = 0;
         for(let i = cell[1]; i < board.length; i++) {
-            if(board[cell[0]][i] == 'W')
+            if(board[cell[0]][i] == 'W') {
                 counterPLS++;
+                objPLS.plsIdx[0] = cell[0];
+                objPLS.plsIdx[1] = i;
+            }
             else if(board[cell[0]][i] != 'W') {
                 if(board[cell[0]][i] == 'B')
                     blockRight = true;
@@ -502,8 +504,11 @@ function getPLS() {
             }
         }
         for(let i = cell[1] - 1; i >= 0; i--) {
-            if(board[cell[0]][i] == 'W')
+            if(board[cell[0]][i] == 'W') {
                 counterPLS++;
+                objPLS.plsIdx[0] = cell[0];
+                objPLS.plsIdx[1] = i;
+            }
             else if(board[cell[0]][i] != 'W') {
                 if(board[cell[0]][i] ==  'B')
                     blockLeft = true;
@@ -517,8 +522,11 @@ function getPLS() {
         tempPLS = counterPLS;
         counterPLS = 0;
         for(let i = cell[0]; i < board.length; i++) {
-            if(board[i][cell[1]] == 'W')
+            if(board[i][cell[1]] == 'W') {
                 counterPLS++; 
+                objPLS.plsIdx[0] = i;
+                objPLS.plsIdx[1] = cell[1];
+            }
             else if(board[i][cell[1]] != 'W') {
                 if(board[i][cell[1]] == 'B')
                     blockLeft = true;
@@ -527,8 +535,11 @@ function getPLS() {
         }
 
         for(let i = cell[0] - 1; i >= 0; i--) {
-            if(board[i][cell[1]] == 'W')
+            if(board[i][cell[1]] == 'W') {
                 counterPLS++;
+                objPLS.plsIdx[0] = i;
+                objPLS.plsIdx[1] = cell[1];
+            }
             else if(board[i][cell[1]] != 'W') {
                 if(board[i][cell[1]] == 'B')
                     blockRight = true;
@@ -542,8 +553,11 @@ function getPLS() {
 
         counterPLS = 0;
         for(let i = cell[0], j = cell[1]; i < board.length; i++, j--) {
-            if(board[i][j] == 'W')
+            if(board[i][j] == 'W') {
                 counterPLS++;
+                objPLS.plsIdx[0] = i;
+                objPLS.plsIdx[1] = j;
+            }
             else if(board[i][j] != 'W') {
                 if(board[i][j] == 'B')
                     blockLeft = true;
@@ -551,8 +565,11 @@ function getPLS() {
             }
         }
         for(let i = cell[0] - 1, j = cell[1] + 1; i >= 0; i--, j++) {
-            if(board[i][j] == 'W')
+            if(board[i][j] == 'W') {
                 counterPLS++;
+                objPLS.plsIdx[0] = i;
+                objPLS.plsIdx[1] = j;
+            }
                 else if(board[i][j] != 'W') {
                     if(board[i][j] == 'B')
                         blockRight = true;
@@ -579,8 +596,11 @@ function getPLS() {
         }
 
         for(let i = cell[0] + 1, j = cell[1] + 1; i < board.length; i++, j++) {
-            if(board[i][j] == 'W')
+            if(board[i][j] == 'W') {
                 counterPLS++;
+                objPLS.plsIdx[0] = i;
+                objPLS.plsIdx[1] = j;
+            }
             else if(board[i][j] != 'W') {
                 if(board[i][j] == 'B')
                     blockRight = true;
