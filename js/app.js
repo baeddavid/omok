@@ -88,6 +88,8 @@ function handleClick(evt) {
                 idxCache.push(idxArr);
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'W';
+                // console.log(getPLS());
+                console.log(getPLS1(evt));
                 timer = 15;
                 counter++;
                 history.push(board.map(inner => inner.slice())); 
@@ -477,298 +479,181 @@ function cleanIdx(idxString) {
         
     idxArr.push(parseInt(idx));
     return idxArr;
-}
+} 
 
-function getPLS() {
+function getPLS1(evt) {
     let counterPLS = 0;
-    let tempPLS = 0;
+    let maxPLS = 0;
     let blockLeft = false, blockRight = false;
+    let tempArr = [];
     let objPLS = {
-        plsVal: 0,
+        plsLength: 0,
         plsIdx: [],
+        plsType: '0'
     };
 
-    for(let cell of idxCache) {
-        // Find the PLS in row
-        counterPLS = 0;
-        for(let i = cell[1]; i < board.length; i++) {
-            if(board[cell[0]][i] == 'W') {
-                counterPLS++;
-                objPLS.plsIdx[0] = cell[0];
-                objPLS.plsIdx[1] = i;
-            }
-            else if(board[cell[0]][i] != 'W') {
-                if(board[cell[0]][i] == 'B')
-                    blockRight = true;
-                break;    
-            }
-        }
-        for(let i = cell[1] - 1; i >= 0; i--) {
-            if(board[cell[0]][i] == 'W') {
-                counterPLS++;
-                objPLS.plsIdx[0] = cell[0];
-                objPLS.plsIdx[1] = i;
-            }
-            else if(board[cell[0]][i] != 'W') {
-                if(board[cell[0]][i] ==  'B')
-                    blockLeft = true;
-                break;
-            }
-        }
-        // If both left and right are blocked it is not a threat
-        if(blockLeft && blockRight) counterPLS = 0;
-        blockLeft = false, blockRight = false;
-        // Store current PLS in case we find larger PLS
-        tempPLS = counterPLS;
-        counterPLS = 0;
-        for(let i = cell[0]; i < board.length; i++) {
-            if(board[i][cell[1]] == 'W') {
-                counterPLS++; 
-                objPLS.plsIdx[0] = i;
-                objPLS.plsIdx[1] = cell[1];
-            }
-            else if(board[i][cell[1]] != 'W') {
-                if(board[i][cell[1]] == 'B')
-                    blockLeft = true;
-                break;
-            }
-        }
-
-        for(let i = cell[0] - 1; i >= 0; i--) {
-            if(board[i][cell[1]] == 'W') {
-                counterPLS++;
-                objPLS.plsIdx[0] = i;
-                objPLS.plsIdx[1] = cell[1];
-            }
-            else if(board[i][cell[1]] != 'W') {
-                if(board[i][cell[1]] == 'B')
-                    blockRight = true;
-                break;
-            }
-        }
-        if(blockLeft && blockRight) counterPLS = 0;
-        
-        blockLeft = false, blockRight = false;
-        tempPLS = Math.max(counterPLS, tempPLS);
-
-        counterPLS = 0;
-        for(let i = cell[0], j = cell[1]; i < board.length; i++, j--) {
-            if(board[i][j] == 'W') {
-                counterPLS++;
-                objPLS.plsIdx[0] = i;
-                objPLS.plsIdx[1] = j;
-            }
-            else if(board[i][j] != 'W') {
-                if(board[i][j] == 'B')
-                    blockLeft = true;
-                break;
-            }
-        }
-        for(let i = cell[0] - 1, j = cell[1] + 1; i >= 0; i--, j++) {
-            if(board[i][j] == 'W') {
-                counterPLS++;
-                objPLS.plsIdx[0] = i;
-                objPLS.plsIdx[1] = j;
-            }
-                else if(board[i][j] != 'W') {
-                    if(board[i][j] == 'B')
-                        blockRight = true;
-                    break;
-            }
-        }
-        if(blockLeft && blockRight) counterPLS = 0;
-        
-        blockLeft = false, blockRight = false;
-        tempPLS = Math.max(counterPLS, tempPLS);
-
-        counterPLS = 0;
-        for(let i = cell[0], j = cell[1]; i >= 0; i--, j--) {
-            if(board[i][j] == 'W') {
-                counterPLS++;
-                objPLS.plsIdx[0] = i;
-                objPLS.plsIdx[1] = j;
-            }
-            else if(board[i][j] != 'W') {
-                if(board[i][j] == 'B')
-                    blockLeft = true;
-                break;
-            }
-        }
-
-        for(let i = cell[0] + 1, j = cell[1] + 1; i < board.length; i++, j++) {
-            if(board[i][j] == 'W') {
-                counterPLS++;
-                objPLS.plsIdx[0] = i;
-                objPLS.plsIdx[1] = j;
-            }
-            else if(board[i][j] != 'W') {
-                if(board[i][j] == 'B')
-                    blockRight = true;
-                break;
-            }
-        }
-        if(blockLeft && blockRight) counterPLS = 0;
-        blockLeft = false, blockRight = false;
-        tempPLS = Math.max(counterPLS, tempPLS); 
-        objPLS.plsVal = tempPLS;
-    }
-    return objPLS;
-}
-
-// FIX BUG
-function idxArrPLS() {
-    let start = getPLS().plsIdx;
-    let count = getPLS().plsVal;
-    let counterPLS = 0;
-    let arrPLS = [];
-
-    // Check row if row's pls is equal to the pls of board
-    for(let i = start[1]; i < board.length; i++) {
-        if(board[start[0]][i] == 'W') {
+    // Do I need to loop through our cells?
+    // Attempt without looping through cells
+    let idxArr = cleanIdx(evt.target.id);
+    for(let i = idxArr[1]; i < board.length; i++) {
+        if(board[idxArr[0]][i] == 'W') {
             counterPLS++;
-            arrPLS.push([start[0], i])
+            tempArr.push([idxArr[0], i]);
         }
-        else if(board[start[0]][i] != 'W')
+        else if(board[idxArr[0]][i] != 'W') {
+            if(board[idxArr[0]][i] == 'B')
+                blockRight = true;
             break;    
-    } 
-    for(let i = start[1] - 1; i >= 0; i--) {
-        if(board[start[0]][i] == 'W') {
-            counterPLS++;
-            arrPLS.push([start[0], i])
         }
-        else if(board[start[0]][i] != 'W') 
-            break;
     }
-    if(counterPLS == count)
-        return arrPLS;
-    // Reset pls array and counter
-    while(arrPLS.length > 0)
-        arrPLS.pop();
-    counterPLS = 0;
 
-    // Check col if col's pls is equal to the pls of board
-    for(let i = start[0]; i < board.length; i++) {
-        if(board[i][start[1]] == 'W') {
-            counterPLS++; 
-            arrPLS.push([i, start[1]]);
-        }
-        else if(board[i][start[1]] != 'W')
-            break;
-    }    
-    for(let i = start[0] - 1; i >= 0; i--) {
-        if(board[i][start[1]] == 'W') {
+    for(let i = idxArr[1] - 1; i >= 0; i--) {
+        if(board[idxArr[0]][i] == 'W') {
             counterPLS++;
-            arrPLS.push([i, start[1]]);
+            tempArr.push([idxArr[0], i]);
         }
-        else if(board[i][start[1]] != 'W')
+        else if(board[idxArr[0]][i] != 'W') {
+            if(board[idxArr[0]][i] ==  'B')
+                blockLeft = true;
             break;
+        }
+    }
+
+    // If both left and right are blocked then it is not a
+    // valid PLS. Reset counters and idx array
+
+    if(blockLeft && blockRight) {
+        counterPLS = 0;
+        objPLS.plsIdx = [];
+    }
+
+    // Reset our flags for the next check
+    blockLeft = false, blockRight = false;
+    // Our store our counter pls
+    maxPLS = counterPLS;
+    // In case our array has duplicates, filter it
+    objPLS.plsIdx = filterArray(tempArr);
+    objPLS.plsType = 'R'
+
+    // Since we are checking our columns now reset 
+    counterPLS = 0;
+    tempArr = [];
+    for(let i = idxArr[0]; i < board.length; i++) {
+        if(board[i][idxArr[1]] == 'W') {
+            counterPLS++;
+            tempArr.push([i, idxArr[1]]);
+        }
+        else if(board[i][idxArr[1]] != 'W') {
+            if(board[i][idxArr[1]] == 'B')
+                blockLeft = true;
+            break;
+        }
+    }
+
+    for(let i = idxArr[0] - 1; i >= 0; i--) {
+        if(board[i][idxArr[1]] == 'W') {
+            counterPLS++;
+            tempArr.push([i, idxArr[1]]);
+        }
+        else if(board[i][idxArr[1]] != 'W') {
+            if(board[i][idxArr[1]] == 'B')
+                blockRight = true;
+            break;
+        }
+    }
+
+    if(blockLeft && blockRight) {
+        counterPLS = 0;
+        objPLS.plsIdx = [];
     }
     
-    if(counterPLS = count)
-        return arrPLS;
-
-    // Reset pls array and counter
-    while(arrPLS.length > 0)
-        arrPLS.pop();
-    counterPLS = 0;  
-    // Check diag if diag's pls is equal to pls of board
-    for(let i = start[0], j = start[1]; i < board.length; i++, j--) {
-        if(board[i][j] == 'W') {
-            counterPLS++;
-            arrPLS.push([i, j]);
-        }
-        else if(board[i][j] != 'W')
-            break;
+    if(maxPLS < counterPLS) {
+        maxPLS = counterPLS;
+        objPLS.plsIdx = filterArray(tempArr);
+        objPLS.plsType = 'C'
     }
-    for(let i = start[0] - 1, j = start[1] + 1; i >= 0; i--, j++) {
+    
+    blockLeft = false, blockRight = false;
+    tempArr = [];
+    counterPLS = 0;
+    for(let i = idxArr[0], j = idxArr[1]; i < board.length; i++, j--) {
         if(board[i][j] == 'W') {
             counterPLS++;
-            arrPLS.push([i, j]);
+            tempArr.push([i, j]);
         }
-            else if(board[i][j] != 'W')
+        else if(board[i][j] != 'W') {
+            if(board[i][j] == 'B')
+                blockLeft = true;
+            break;
+        }
+    }
+    for(let i = idxArr[0] - 1, j = idxArr[1] + 1; i >= 0; i--, j++) {
+        if(board[i][j] == 'W') {
+            counterPLS++;
+            tempArr.push([i, j]);
+        }
+            else if(board[i][j] != 'W') {
+                if(board[i][j] == 'B')
+                    blockRight = true;
                 break;
+        }
     }
-    if(counterPLS = count)
-        return arrPLS;
-
-    while(arrPLS.length > 0)
-        arrPLS.pop();
-    counterPLS = 0;  
-    // Check anti-diag's pls is equal to pls of board
-    for(let i = start[0], j = start[1]; i >= 0; i--, j--) {
+    if(blockLeft && blockRight) {
+        counterPLS = 0;
+        objPLS.plsIdx = [];
+    }
+    if(maxPLS < counterPLS) {
+        maxPLS = counterPLS;
+        objPLS.plsIdx = filterArray(tempArr);
+        objPLS.plsType = 'D'
+    }
+    
+    blockLeft = false, blockRight = false;
+    tempArr = [];
+    counterPLS = 0;
+    for(let i = idxArr[0], j = idxArr[1]; i >= 0; i--, j--) {
         if(board[i][j] == 'W') {
             counterPLS++;
-            arrPLS.push([i, j])
+            tempArr.push([i, j]);
         }
-        else if(board[i][j] != 'W')
+        else if(board[i][j] != 'W') {
+            if(board[i][j] == 'B')
+                blockLeft = true;
             break;
+        }
     }
-    for(let i = start[0], j = start[1]; i < board.length; i++, j++) {
+    for(let i = idxArr[0] + 1, j = idxArr[1] + 1; i < board.length; i++, j++) {
         if(board[i][j] == 'W') {
             counterPLS++;
-            arrPLS.push([i, j])
+            tempArr.push([i, j]);
         }
-        else if(board[i][j] != 'W')
+        else if(board[i][j] != 'W') {
+            if(board[i][j] == 'B')
+                blockRight = true;
             break;
+        }
     }
-    if(counterPLS = count)
-        return arrPLS;
-}
+    if(blockLeft && blockRight) {
+        counterPLS = 0;
+        objPLS.plsIdx = [];
+    }
+    if(maxPLS < counterPLS) {
+        maxPLS = counterPLS;
+        objPLS.plsIdx = filterArray(tempArr);
+        objPLS.plsType = 'AD'
+    }  
+    blockLeft = false, blockRight = false;
+    objPLS.plsLength = maxPLS;
+    objPLS.plsIdx = objPLS.plsIdx.sort();
+    return objPLS;
+}   
 
 // INCOMPLETE
 function defensiveAction() {
-    let boolTypePLS = -1;
-    let idxArr = idxArrPLS();
-    if(idxArr.length == 1) {
-        firstMove();
-        return;
-    }
-    let firstA = idxArr[0];
-    // Check if the PLS is a row
-    for(let i = 0; i < idxArr.length - 1; i++) 
-        if(idxArr[i][1] + 1 == idxArr[i + 1][1])
-            boolTypePLS = 1;
-    for(let i = idxArr.length - 1; i > 0; i--)
-        if(idxArr[i][1] == idxArr[i - 1][1] - 1)
-            boolTypePLS = 1;
+    let idxList = getPLS();
 
-    // Check if the PLS is a col
-    for(let i = 0; i < idxArr.length - 1; i++)
-        if(idxArr[i][0] - 1 == idxArr[i + 1][0])
-            boolTypePLS = 2;
-    for(let i = idxArr.length - 1; i > 0; i--)
-        if(idxArr[i][0] - 1 == idxArr[i - 1][0])
-            boolTypePLS = 2;
-
-    switch(boolTypePLS) {
-        case 1:     
-            console.log('I MADE IT TO ROW')
-            if(board[firstA[0]][firstA[1] - 1] == null) {
-                board[firstA[0]][firstA[1] - 1] ='B';
-                render2([firstA[0], firstA[1] - 1]);
-                return;
-            }
-            if(board[firstA[0]][firstA[1] + 1] == null) {
-                board[firstA[0]][firstA[1] + 1] ='B';
-                render2([firstA[0], firstA[1] + 1]);
-                return;
-            }
-        case 2:
-            console.log('I MADE IT TO COL')
-            if(board[firstA[0] - 1][firstA[1]] == null) {
-                board[firstA[0] - 1][firstA[1]] ='B';
-                render2([firstA[0] - 1, firstA[1]]);
-                return;
-            }
-            if(board[firstA[0] + 1][firstA[1]] == null) {
-                board[firstA[0] + 1][firstA[1]] ='B';
-                render2([firstA[0] + 1, firstA[1]]);
-                return;
-            }
-    }
-    console.log('I DIDNT MAKE IT')
 }
-
+// We need to remove this
 function firstMove() {
     let firstIdx = idxArrPLS();
     firstIdx = firstIdx[0];
@@ -778,4 +663,15 @@ function firstMove() {
             idx++;
     board[firstIdx[idx]][firstIdx[1] + 1] = 'B';
     render2([firstIdx[idx], firstIdx[1] + 1]);
+}
+
+function filterArray(arr) {
+    let tmp = [];
+    let answer = arr.filter(function (v) {
+        if (tmp.indexOf(v.toString()) < 0) {
+            tmp.push(v.toString());
+            return v;
+        }
+    });
+    return answer;
 }
