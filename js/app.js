@@ -1,5 +1,5 @@
 /*----- app's state (variables) -----*/ 
-let board, history, timer, idxCache;
+let board, history, timer, plsCache;
 let isPlayerWhite, winnerPresent, is2p, counter, pls, cls;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
@@ -38,7 +38,7 @@ function play() {
     is2p = true;
     counter = 0;
     timer = 15;
-    idxCache = [];
+    plsCache = [];
 }
 
 function reset() {
@@ -85,11 +85,9 @@ function handleClick(evt) {
                 document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
                 return;
             } else {
-                idxCache.push(idxArr);
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'W';
-                // console.log(getPLS());
-                console.log(getPLS1(evt));
+                console.log(getPLS(evt));
                 timer = 15;
                 counter++;
                 history.push(board.map(inner => inner.slice())); 
@@ -128,9 +126,9 @@ function handleClick(evt) {
                 document.querySelector('.win').innerHTML = '<span class="dsp">TILE HAS BEEN CHOSEN!</span>';
                 return;
             } else {
-                idxCache.push(idxArr);
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'W';
+                plsCache.push(getPLS(evt));
                 timer = 15;
                 counter++;
                 history.push(board.map(inner => inner.slice())); 
@@ -143,27 +141,25 @@ function handleClick(evt) {
                 isPlayerWhite = false;
                 document.querySelector('.player').innerHTML = '<span class="etc">Player: Black\'s Turn</span>'
             }
-            // CPU Action 
-            pls = getPLS().plsVal;
+            // CPU Action
+            pls = plsCache[plsCache.length - 1].plsLength; 
             if(pls >= cls) {
-                // firstMove();
                 defensiveAction();
-                console.log('I MADE IT TO PLS > CLS')
                 counter++;
                 history.push(board.map(inner => inner.slice()));
                 isPlayerWhite = true;
                 document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
-            } else {
-                agressiveAction();
-                counter++;
-                history.push(board.map(inner => inner.slice()));
-                isPlayerWhite = true;
-                document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
-            }
+            // } else {
+            //     agressiveAction();
+            //     counter++;
+            //     history.push(board.map(inner => inner.slice()));
+            //     isPlayerWhite = true;
+            //     document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
+            // }
         }
     }
 }
-
+}
 function clearBoard() {
     for(let i = 0; i < board.length; i++) {
         for(let j = 0; j < board.length; j++) {
@@ -481,7 +477,7 @@ function cleanIdx(idxString) {
     return idxArr;
 } 
 
-function getPLS1(evt) {
+function getPLS(evt) {
     let counterPLS = 0;
     let maxPLS = 0;
     let blockLeft = false, blockRight = false;
@@ -647,11 +643,64 @@ function getPLS1(evt) {
     objPLS.plsIdx = objPLS.plsIdx.sort();
     return objPLS;
 }   
-
 // INCOMPLETE
 function defensiveAction() {
-    let idxList = getPLS();
+    let plsObj = plsCache[plsCache.length - 1];
+    let plsArr = plsObj.plsIdx;
+    console.log(plsObj);
 
+    switch(plsObj.plsType) {
+        case 'undefined':
+            console.log('i fucked up')
+            break;
+        case 'R':
+            let left = plsArr[0];
+            let right = plsArr[plsArr.length - 1];
+            if(board[left[0]][left[1] - 1] == null) {
+                board[left[0]][left[1] - 1] = 'B';
+                render2([left[0], left[1] - 1]);
+            } else if(board[right[0]][right[1] + 1] == null) {
+                board[right[0]][right[1] + 1] = 'B';
+                render2([right[0], right[1] + 1]);
+            }
+            break;
+        case 'C':
+
+            let top = plsArr[0];
+            let bottom = plsArr[plsArr.length - 1];
+            if(board[top[0] - 1][top[1]] == null) {
+                console.log('here1')
+                board[top[0] - 1][top[1]] = 'B';
+                render2([top[0] - 1, top[1]]);
+            } else if(board[bottom[0] + 1][bottom[1]] == null) {
+                console.log('here2');
+                board[bottom[0] + 1][bottom[1]] = 'B';
+                render2([bottom[0] + 1, bottom[1]]);
+            }
+            break;
+        case 'AD':
+            let topLeft = plsArr[0];
+            let bottomRight = plsArr[plsArr.length - 1];
+            if(board[topLeft[0] - 1][topLeft[1] - 1] == null) {
+                board[topLeft[0] - 1][topLeft[1] - 1] = 'B';
+                render2([[topLeft[0] - 1], [topLeft[1] - 1]]);
+            } else if(board[bottomRight[0] + 1][bottomRight[1] + 1] == null) {
+                board[bottomRight[0] + 1][bottomRight[1] + 1] = 'B';
+                render2([[bottomRight[0] + 1], [bottomRight[1] + 1]]);
+            }
+            break;
+        case 'D':
+            let topRight = plsArr[0];
+            let bottomLeft = plsArr[plsArr.length - 1];
+            if(board[topRight[0] - 1][topRight[1] + 1] == null) {
+                board[topRight[0] - 1][topRight[1] + 1] = 'B';
+                render2([[topRight[0] - 1],[topRight[1] + 1]]);
+            } else if(board[bottomLeft[0] + 1][bottomLeft[1] - 1] == null) {
+                board[bottomLeft[0] + 1][bottomLeft[1] - 1] = 'B';
+                render2([[bottomLeft[0] + 1],[bottomLeft[1] - 1]]);
+            }
+            break;
+    }
 }
 // We need to remove this
 function firstMove() {
