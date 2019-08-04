@@ -34,11 +34,14 @@ Two key algorithms
 
 **CPU Algorithm**
 
-* The CPU algorithm is relatively simple in conception, but was difficult during implementation. The current CPU algorithm is designed to be 'competent', not impossible to beat. 
-* The rules for it's implementation are as follows → 
-  1. When a player places a piece, scan the board.
-  2. If during the scan the Player's Longest Sequence(PLS) is greater than the Computer's Longest Sequnce(CLS) and is not completely blocked call the `defensiveAction()` algorithm. 
-     * The `defensiveAction()` algorithm places a piece at either end of the PLS.
-  3. If the CLS is greater than the PLS, call the `agressiveAction()` algorithm.
-     * The `agressiveAction()` algorithm places a piece at either end of CLS.
-  4. Continue playing until either the player wins or the computer wins.
+* The CPU algorithm was relatively simple in theory, but it's execution was proven to be very difficult. After failing to implement the `minimax` ai algorithm using a decision tree I switched to a more iterative solution consisting of 4 main components → `defensiveAction()`, `agressiveAction()`, `getPLS()`, and `getCLS()`. 
+* The rules for the iterative ai are as follows → 
+   1. The player is always white. 
+   2. The computer's default value for Computer's Longest Sequence (CLS) is always 1.
+   3. When the player places a piece, look for the Player's Longest Sequence (PLS). 
+      * If the PLS is greater than the CLS call `defensiveAction()`.
+         * `defensiveAction()` places a piece at the first available end of the PLS.
+      * If the CLS is greather than the PLS call `agressiveAction()`.
+         * `agressiveAction()` places a piece at the first available end of the CLS.
+   4. Continue step 3 until a winner is produced.
+
