@@ -34,8 +34,9 @@ Two key algorithms
 
 **CPU Algorithm**
 
-* The CPU algorithm was relatively simple in theory, but it's execution was proven to be very difficult. After failing to implement the `minimax` ai algorithm using a decision tree I switched to a more iterative solution consisting of 4 main components → `defensiveAction()`, `agressiveAction()`, `getPLS()`, and `getCLS()`. 
-* The rules for the iterative ai are as follows → 
+* The CPU algorithm was relatively simple in theory, but it's execution was proven to be very difficult. After failing to implement the `minimax` AI algorithm using a decision tree I switched to a more iterative solution consisting of 4 main components → `defensiveAction()`, `agressiveAction()`, `getPLS()`, and `getCLS()`. 
+* It is important to know that the iterative AI is not as efficient or "smart" as `minimax`. It is a "player-dependant" algorithm, meaning that if the player plays well, it will play well. If the player decides to randomly select squares it too will randomly defend squares rather than going for 5 in a row.
+* The rules for the iterative AI are as follows → 
    1. The player is always white. 
    2. The computer's default value for Computer's Longest Sequence (CLS) is always 1.
    3. When the player places a piece, look for the Player's Longest Sequence (PLS). 
