@@ -1,5 +1,5 @@
 /*----- app's state (variables) -----*/ 
-let board, history, timer, plsCache;
+let board, history, timer, plsCache, clsCache, clsMoves;
 let isPlayerWhite, winnerPresent, is2p, counter, pls, cls;
 /*----- event listeners -----*/ 
 let cell = document.querySelector('section.playable');
@@ -39,6 +39,15 @@ function play() {
     counter = 0;
     timer = 15;
     plsCache = [];
+    clsCache = [
+        // Dummy cls object to get computer started 
+        {
+            clsLength: 0,
+            clsIdx: [0,0],
+            clsType: 'R'
+        }
+    ];
+    clsMoves = [];
 }
 
 function reset() {
@@ -143,23 +152,27 @@ function handleClick(evt) {
             }
             // CPU Action
             pls = plsCache[plsCache.length - 1].plsLength; 
-            if(pls >= cls) {
+            cls = Math.max(cls, clsCache[clsCache.length - 1].clsLength);
+            if(pls > cls) {
                 defensiveAction();
+                clsCache.push(getCLS());
+                console.log(getCLS());
                 counter++;
                 history.push(board.map(inner => inner.slice()));
                 isPlayerWhite = true;
                 document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
-            // } else {
-            //     agressiveAction();
-            //     counter++;
-            //     history.push(board.map(inner => inner.slice()));
-            //     isPlayerWhite = true;
-            //     document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
-            // }
+            } else {
+                console.log('ME ATTACK');
+                agressiveAction();
+                counter++;
+                history.push(board.map(inner => inner.slice()));
+                isPlayerWhite = true;
+                document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
+            }
         }
     }
 }
-}
+
 function clearBoard() {
     for(let i = 0; i < board.length; i++) {
         for(let j = 0; j < board.length; j++) {
@@ -654,7 +667,175 @@ function getPLS(evt) {
     objPLS.plsLength = maxPLS;
     objPLS.plsIdx = objPLS.plsIdx.sort();
     return objPLS;
-}   
+}
+
+function getCLS() {
+    let counterCLS = 0;
+    let maxCLS = 0;
+    let blockLeft = false, blockRight = false;
+    let tempArr = [];
+    let objCLS = {
+        clsLength: 0,
+        clsIdx: [],
+        clsType: '0'
+    };
+
+    // Do I need to loop through our cells?
+    // Attempt without looping through cells
+    let idxArr = clsMoves[clsMoves.length - 1];
+    for(let i = idxArr[1]; i < board.length; i++) {
+        if(board[idxArr[0]][i] == 'B') {
+            counterCLS++;
+            tempArr.push([idxArr[0], i]);
+        }
+        else if(board[idxArr[0]][i] != 'B') {
+            if(board[idxArr[0]][i] == 'W')
+                blockRight = true;
+            break;    
+        }
+    }
+
+    for(let i = idxArr[1] - 1; i >= 0; i--) {
+        if(board[idxArr[0]][i] == 'B') {
+            counterCLS++;
+            tempArr.push([idxArr[0], i]);
+        }
+        else if(board[idxArr[0]][i] != 'B') {
+            if(board[idxArr[0]][i] ==  'W')
+                blockLeft = true;
+            break;
+        }
+    }
+
+    // If both left and right are blocked then it is not a
+    // valid PLS. Reset counters and idx array
+
+    if(blockLeft && blockRight) {
+        counterCLS = 0;
+        objCLS.clsIdx = [];
+    }
+
+    // Reset our flags for the next check
+    blockLeft = false, blockRight = false;
+    // Our store our counter pls
+    maxCLS = counterCLS;
+    // In case our array has duplicates, filter it
+    objCLS.clsIdx = filterArray(tempArr);
+    objCLS.clsType = 'R'
+
+    // Since we are checking our columns now reset 
+    counterCLS = 0;
+    tempArr = [];
+    for(let i = idxArr[0]; i < board.length; i++) {
+        if(board[i][idxArr[1]] == 'B') {
+            counterCLS++;
+            tempArr.push([i, idxArr[1]]);
+        }
+        else if(board[i][idxArr[1]] != 'B') {
+            if(board[i][idxArr[1]] == 'W')
+                blockLeft = true;
+            break;
+        }
+    }
+
+    for(let i = idxArr[0] - 1; i >= 0; i--) {
+        if(board[i][idxArr[1]] == 'B') {
+            counterCLS++;
+            tempArr.push([i, idxArr[1]]);
+        }
+        else if(board[i][idxArr[1]] != 'B') {
+            if(board[i][idxArr[1]] == 'W')
+                blockRight = true;
+            break;
+        }
+    }
+
+    if(blockLeft && blockRight) {
+        counterCLS = 0;
+        objCLS.clsIdx = [];
+    }
+    
+    if(maxCLS < counterCLS) {
+        maxCLS = counterCLS;
+        objCLS.clsIdx = filterArray(tempArr);
+        objCLS.clsType = 'C'
+    }
+    
+    blockLeft = false, blockRight = false;
+    tempArr = [];
+    counterCLS = 0;
+    for(let i = idxArr[0], j = idxArr[1]; i < board.length; i++, j--) {
+        if(board[i][j] == 'B') {
+            counterCLS++;
+            tempArr.push([i, j]);
+        }
+        else if(board[i][j] != 'B') {
+            if(board[i][j] == 'W')
+                blockLeft = true;
+            break;
+        }
+    }
+    for(let i = idxArr[0] - 1, j = idxArr[1] + 1; i >= 0; i--, j++) {
+        if(board[i][j] == 'B') {
+            counterCLS++;
+            tempArr.push([i, j]);
+        }
+            else if(board[i][j] != 'B') {
+                if(board[i][j] == 'W')
+                    blockRight = true;
+                break;
+        }
+    }
+    if(blockLeft && blockRight) {
+        counterCLS = 0;
+        objCLS.plsIdx = [];
+    }
+    if(maxCLS < counterCLS) {
+        maxCLS = counterCLS;
+        objCLS.plsIdx = filterArray(tempArr);
+        objCLS.plsType = 'D'
+    }
+    
+    blockLeft = false, blockRight = false;
+    tempArr = [];
+    counterCLS = 0;
+    for(let i = idxArr[0], j = idxArr[1]; i >= 0; i--, j--) {
+        if(board[i][j] == 'B') {
+            counterCLS++;
+            tempArr.push([i, j]);
+        }
+        else if(board[i][j] != 'B') {
+            if(board[i][j] == 'W')
+                blockLeft = true;
+            break;
+        }
+    }
+    for(let i = idxArr[0] + 1, j = idxArr[1] + 1; i < board.length; i++, j++) {
+        if(board[i][j] == 'B') {
+            counterCLS++;
+            tempArr.push([i, j]);
+        }
+        else if(board[i][j] != 'B') {
+            if(board[i][j] == 'W')
+                blockRight = true;
+            break;
+        }
+    }
+    if(blockLeft && blockRight) {
+        counterCLS = 0;
+        objCLS.clsIdx = [];
+    }
+    if(maxCLS < counterCLS) {
+        maxCLS = counterCLS;
+        objCLS.clsIdx = filterArray(tempArr);
+        objCLS.clsType = 'AD'
+    }  
+    blockLeft = false, blockRight = false;
+    objCLS.clsLength = maxCLS;
+    objCLS.clsIdx = objCLS.clsIdx.sort();
+    return objCLS;
+}
+
 // INCOMPLETE -> FIX UNDEFINED IT IS LINKED TO GETPLS
 function defensiveAction() {
     let plsObj = plsCache[plsCache.length - 1];
@@ -672,9 +853,11 @@ function defensiveAction() {
             if(board[left[0]][left[1] - 1] == null) {
                 board[left[0]][left[1] - 1] = 'B';
                 render2([left[0], left[1] - 1]);
+                clsMoves.push([left[0], left[1] - 1]);
             } else if(board[right[0]][right[1] + 1] == null) {
                 board[right[0]][right[1] + 1] = 'B';
                 render2([right[0], right[1] + 1]);
+                clsMoves.push([right[0], right[1] + 1]);
             }
             break;
         case 'C':
@@ -684,9 +867,11 @@ function defensiveAction() {
             if(board[top[0] - 1][top[1]] == null) {
                 board[top[0] - 1][top[1]] = 'B';
                 render2([top[0] - 1, top[1]]);
+                clsMoves.push([top[0] - 1, top[1]]);
             } else if(board[bottom[0] + 1][bottom[1]] == null) {
                 board[bottom[0] + 1][bottom[1]] = 'B';
                 render2([bottom[0] + 1, bottom[1]]);
+                clsMoves.push([bottom[0] + 1, bottom[1]]);
             }
             break;
         case 'AD':
@@ -696,9 +881,11 @@ function defensiveAction() {
             if(board[topLeft[0] - 1][topLeft[1] - 1] == null) {
                 board[topLeft[0] - 1][topLeft[1] - 1] = 'B';
                 render2([[topLeft[0] - 1], [topLeft[1] - 1]]);
+                clsMoves.push([topLeft[0] - 1, topLeft[1] - 1]);
             } else if(board[bottomRight[0] + 1][bottomRight[1] + 1] == null) {
                 board[bottomRight[0] + 1][bottomRight[1] + 1] = 'B';
                 render2([[bottomRight[0] + 1], [bottomRight[1] + 1]]);
+                clsMoves.push([bottomRight[0] + 1, bottomRight[1] + 1]);
             }
             break;
         case 'D':
@@ -708,14 +895,70 @@ function defensiveAction() {
             if(board[topRight[0] - 1][topRight[1] + 1] == null) {
                 board[topRight[0] - 1][topRight[1] + 1] = 'B';
                 render2([[topRight[0] - 1],[topRight[1] + 1]]);
+                clsMoves.push([topRight[0] - 1,topRight[1] + 1]);
             } else if(board[bottomLeft[0] + 1][bottomLeft[1] - 1] == null) {
                 board[bottomLeft[0] + 1][bottomLeft[1] - 1] = 'B';
-                render2([[bottomLeft[0] + 1],[bottomLeft[1] - 1]]);
+                render2([bottomLeft[0] + 1,bottomLeft[1] - 1]);
+                clsMoves.push([bottomLeft[0] + 1,bottomLeft[1] - 1]);
             }
             break;
     }
 }
 
-function getCLS() {
-    
+function agressiveAction() {
+    let clsObj = clsCache[clsCache.length - 1];
+    let clsArr = clsObj.clsIdx;
+    switch(clsObj.clsType) {
+        case 'undefined':
+            console.log('i fucked up')
+            break;
+        case 'R':
+            clsArr = clsArr.sort((a,b) => a[1] - b[1]);
+            let left = clsArr[0];
+            let right = clsArr[clsArr.length - 1];
+            if(board[left[0]][left[1] - 1] == null) {
+                board[left[0]][left[1] - 1] = 'B';
+                render2([left[0], left[1] - 1]);
+            } else if(board[right[0]][right[1] + 1] == null) {
+                board[right[0]][right[1] + 1] = 'B';
+                render2([right[0], right[1] + 1]);
+            }
+            break;
+        case 'C':
+            clsArr = clsArr.sort((a,b) => a[0] - b[0]);
+            let top = clsArr[0];
+            let bottom = clsArr[clsArr.length - 1];
+            if(board[top[0] - 1][top[1]] == null) {
+                board[top[0] - 1][top[1]] = 'B';
+                render2([top[0] - 1, top[1]]);;
+            } else if(board[bottom[0] + 1][bottom[1]] == null) {
+                board[bottom[0] + 1][bottom[1]] = 'B';
+                render2([bottom[0] + 1, bottom[1]]);
+            }
+            break;
+        case 'AD':
+            clsArr = clsArr.sort((a,b) => a[0] - b[0]);
+            let topLeft = clsArr[0];
+            let bottomRight = clsArr[clsArr.length - 1];
+            if(board[topLeft[0] - 1][topLeft[1] - 1] == null) {
+                board[topLeft[0] - 1][topLeft[1] - 1] = 'B';
+                render2([[topLeft[0] - 1], [topLeft[1] - 1]]);
+            } else if(board[bottomRight[0] + 1][bottomRight[1] + 1] == null) {
+                board[bottomRight[0] + 1][bottomRight[1] + 1] = 'B';
+                render2([[bottomRight[0] + 1], [bottomRight[1] + 1]]);
+            }
+            break;
+        case 'D':
+            clsArr = clsArr.sort((a,b) => a[0] - b[0]);
+            let topRight = clsArr[0];
+            let bottomLeft = clsArr[clsArr.length - 1];
+            if(board[topRight[0] - 1][topRight[1] + 1] == null) {
+                board[topRight[0] - 1][topRight[1] + 1] = 'B';
+                render2([[topRight[0] - 1],[topRight[1] + 1]]);
+            } else if(board[bottomLeft[0] + 1][bottomLeft[1] - 1] == null) {
+                board[bottomLeft[0] + 1][bottomLeft[1] - 1] = 'B';
+                render2([bottomLeft[0] + 1,bottomLeft[1] - 1]);
+            }
+            break;
+    }
 }
