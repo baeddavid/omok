@@ -34,8 +34,9 @@ Two key algorithms
 
 **CPU Algorithm**
 
-* The CPU algorithm was relatively simple in theory, but it's execution was proven to be very difficult. After failing to implement the `minimax` AI algorithm using a decision tree I switched to a more iterative solution consisting of 4 main components → `defensiveAction()`, `agressiveAction()`, `getPLS()`, and `getCLS()`. 
-* It is important to note that the iterative AI is not as efficient or "smart" as `minimax`. It is a "player-dependant" algorithm, meaning that if the player plays well, it will play well. If the player decides to randomly select squares it too will randomly defend squares rather than going for 5 in a row. It is however significantly more memory efficient since it does not need to recursively prune decision subtrees that would lead to a loss.
+* The CPU algorithm was relatively simple in theory, but it's execution was proven to be very difficult. I initially tried to implement the CPU using a variant of the `minimax` algorithm. However after finding that I would need to completely restructure my code, I opted to try a more heuristic/iterative method that consisted of 4 main components → `defensiveAction()`, `agressiveAction()`, `getPLS()`, and `getCLS()`. 
+* It is important to note that the iterative algorithm is not as efficient or "smart" as `minimax`. This is because rather than using a binary decision tree, it uses a one-pass scan of the board caching indices of potential winning subarrays. 
+* The algorithm is a "player-dependant" algorithm, meaning that if the player plays well, it will play well. If the player decides to randomly select squares it too will randomly defend squares rather than going for 5 in a row. It is however significantly more memory efficient that `minimax` since it does not need to recursively prune decision subtrees that would lead to a loss.
 
 * The rules for the iterative AI are as follows → 
    1. The player is always white. 
