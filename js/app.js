@@ -153,7 +153,7 @@ function handleClick(evt) {
             // CPU Action
             pls = plsCache[plsCache.length - 1].plsLength; 
             cls = Math.max(cls, clsCache[clsCache.length - 1].clsLength);
-            if(pls > cls) {
+            if(pls >= cls) {
                 defensiveAction();
                 clsCache.push(getCLS());
                 console.log(getCLS());
@@ -162,7 +162,6 @@ function handleClick(evt) {
                 isPlayerWhite = true;
                 document.querySelector('.player').innerHTML = 'Player: White\'s Turn'
             } else {
-                console.log('ME ATTACK');
                 agressiveAction();
                 counter++;
                 history.push(board.map(inner => inner.slice()));
@@ -907,11 +906,13 @@ function defensiveAction() {
 function agressiveAction() {
     let clsObj = clsCache[clsCache.length - 1];
     let clsArr = clsObj.clsIdx;
+    console.log('??')
     switch(clsObj.clsType) {
         case 'undefined':
             console.log('i fucked up')
             break;
         case 'R':
+
             clsArr = clsArr.sort((a,b) => a[1] - b[1]);
             let left = clsArr[0];
             let right = clsArr[clsArr.length - 1];
@@ -925,7 +926,7 @@ function agressiveAction() {
                 checkBlackWin(left[0], left[1] + 1)
                 render2([right[0], right[1] + 1]);
                 clsCache.push(getCLS());
-            }
+            } 
             break;
         case 'C':
             clsArr = clsArr.sort((a,b) => a[0] - b[0]);
