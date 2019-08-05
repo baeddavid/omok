@@ -96,7 +96,7 @@ function handleClick(evt) {
             } else {
                 document.querySelector('.win').innerHTML = '<span class="dsp"></span>';
                 board[idxArr[0]][idxArr[1]] = 'W';
-                console.log(getPLS(evt));
+                // console.log(getPLS(evt));
                 timer = 15;
                 counter++;
                 history.push(board.map(inner => inner.slice())); 
@@ -156,7 +156,7 @@ function handleClick(evt) {
             if(pls >= cls) {
                 defensiveAction();
                 clsCache.push(getCLS());
-                console.log(getCLS());
+                // console.log(getCLS());
                 counter++;
                 history.push(board.map(inner => inner.slice()));
                 isPlayerWhite = true;
@@ -544,7 +544,7 @@ function getPLS(evt) {
 
     if(blockLeft && blockRight) {
         counterPLS = 0;
-        objPLS.plsIdx = [];
+        tempArr = [];
     }
 
     // Reset our flags for the next check
@@ -584,7 +584,7 @@ function getPLS(evt) {
 
     if(blockLeft && blockRight) {
         counterPLS = 0;
-        objPLS.plsIdx = [];
+        tempArr = [];
     }
     
     if(maxPLS < counterPLS) {
@@ -620,14 +620,14 @@ function getPLS(evt) {
     }
     if(blockLeft && blockRight) {
         counterPLS = 0;
-        objPLS.plsIdx = [];
+        tempArr = [];
     }
     if(maxPLS < counterPLS) {
         maxPLS = counterPLS;
         objPLS.plsIdx = filterArray(tempArr);
         objPLS.plsType = 'D'
     }
-    
+
     blockLeft = false, blockRight = false;
     tempArr = [];
     counterPLS = 0;
@@ -655,16 +655,16 @@ function getPLS(evt) {
     }
     if(blockLeft && blockRight) {
         counterPLS = 0;
-        objPLS.plsIdx = [];
+        tempArr = [];
     }
     if(maxPLS < counterPLS) {
         maxPLS = counterPLS;
         objPLS.plsIdx = filterArray(tempArr);
         objPLS.plsType = 'AD'
-    }  
+    }
+
     blockLeft = false, blockRight = false;
     objPLS.plsLength = maxPLS;
-    objPLS.plsIdx = objPLS.plsIdx.sort();
     return objPLS;
 }
 
