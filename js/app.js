@@ -270,7 +270,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }     
     }
@@ -282,7 +282,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }
     }
@@ -296,7 +296,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }
     }
@@ -308,7 +308,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }
     }
@@ -321,7 +321,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }
     }
@@ -333,7 +333,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }
     }
@@ -346,7 +346,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }  
     }
@@ -358,7 +358,7 @@ function checkBlackWin(row, col) {
             break;
         if(counterB == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('BLACK WIN');
+            document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             winnerPresent = true;
         }  
     }  
@@ -835,7 +835,6 @@ function getCLS() {
     objCLS.clsIdx = objCLS.clsIdx.sort();
     return objCLS;
 }
-
 // INCOMPLETE -> FIX UNDEFINED IT IS LINKED TO GETPLS
 function defensiveAction() {
     let plsObj = plsCache[plsCache.length - 1];
@@ -918,10 +917,14 @@ function agressiveAction() {
             let right = clsArr[clsArr.length - 1];
             if(board[left[0]][left[1] - 1] == null) {
                 board[left[0]][left[1] - 1] = 'B';
+                checkBlackWin(left[0], left[1] - 1)
                 render2([left[0], left[1] - 1]);
+                clsCache.push(getCLS());
             } else if(board[right[0]][right[1] + 1] == null) {
                 board[right[0]][right[1] + 1] = 'B';
+                checkBlackWin(left[0], left[1] + 1)
                 render2([right[0], right[1] + 1]);
+                clsCache.push(getCLS());
             }
             break;
         case 'C':
@@ -930,10 +933,14 @@ function agressiveAction() {
             let bottom = clsArr[clsArr.length - 1];
             if(board[top[0] - 1][top[1]] == null) {
                 board[top[0] - 1][top[1]] = 'B';
-                render2([top[0] - 1, top[1]]);;
+                checkBlackWin(top[0] + 1, top[1])
+                render2([top[0] - 1, top[1]]);
+                clsCache.push(getCLS());
             } else if(board[bottom[0] + 1][bottom[1]] == null) {
                 board[bottom[0] + 1][bottom[1]] = 'B';
+                checkBlackWin(top[0] + 1, top[1])
                 render2([bottom[0] + 1, bottom[1]]);
+                clsCache.push(getCLS());
             }
             break;
         case 'AD':
@@ -942,10 +949,14 @@ function agressiveAction() {
             let bottomRight = clsArr[clsArr.length - 1];
             if(board[topLeft[0] - 1][topLeft[1] - 1] == null) {
                 board[topLeft[0] - 1][topLeft[1] - 1] = 'B';
+                checkBlackWin([topLeft[0] - 1], [topLeft[1] - 1])
                 render2([[topLeft[0] - 1], [topLeft[1] - 1]]);
+                clsCache.push(getCLS());
             } else if(board[bottomRight[0] + 1][bottomRight[1] + 1] == null) {
                 board[bottomRight[0] + 1][bottomRight[1] + 1] = 'B';
+                checkBlackWin([topLeft[0] + 1], [topLeft[1] + 1])
                 render2([[bottomRight[0] + 1], [bottomRight[1] + 1]]);
+                clsCache.push(getCLS());
             }
             break;
         case 'D':
@@ -954,10 +965,14 @@ function agressiveAction() {
             let bottomLeft = clsArr[clsArr.length - 1];
             if(board[topRight[0] - 1][topRight[1] + 1] == null) {
                 board[topRight[0] - 1][topRight[1] + 1] = 'B';
-                render2([[topRight[0] - 1],[topRight[1] + 1]]);
+                checkBlackWin([topRight[0] - 1], [topRight[1] + 1])
+                render2([[topRight[0] - 1], [topRight[1] + 1]]);
+                clsCache.push(getCLS());
             } else if(board[bottomLeft[0] + 1][bottomLeft[1] - 1] == null) {
                 board[bottomLeft[0] + 1][bottomLeft[1] - 1] = 'B';
-                render2([bottomLeft[0] + 1,bottomLeft[1] - 1]);
+                checkBlackWin([bottomLeft[0] + 1, bottomLeft[1] - 1])
+                render2([[bottomLeft[0] + 1, bottomLeft[1] - 1]]);
+                clsCache.push(getCLS());
             }
             break;
     }
