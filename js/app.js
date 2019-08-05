@@ -394,7 +394,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         } 
     }
@@ -406,7 +405,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         } 
     }
@@ -420,7 +418,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         } 
     }
@@ -432,7 +429,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         } 
     }
@@ -446,7 +442,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         } 
     }
@@ -459,7 +454,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         } 
     }
@@ -472,7 +466,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         } 
     }
@@ -484,7 +477,6 @@ function checkWhiteWin(row, col) {
             break;
         if(counterW == 5) {
             cell.removeEventListener('click', handleClick);
-            console.log('WHITE WIN');
             winnerPresent = true;
         }   
     }
@@ -763,7 +755,7 @@ function getCLS() {
 
     if(blockLeft && blockRight) {
         counterCLS = 0;
-        objCLS.clsIdx = [];
+        tempArr = [];
     }
 
     // Reset our flags for the next check
@@ -803,7 +795,7 @@ function getCLS() {
 
     if(blockLeft && blockRight) {
         counterCLS = 0;
-        objCLS.clsIdx = [];
+        tempArr = [];
     }
     
     if(maxCLS < counterCLS) {
@@ -839,7 +831,7 @@ function getCLS() {
     }
     if(blockLeft && blockRight) {
         counterCLS = 0;
-        objCLS.plsIdx = [];
+        tempArr = [];
     }
     if(maxCLS < counterCLS) {
         maxCLS = counterCLS;
@@ -874,25 +866,23 @@ function getCLS() {
     }
     if(blockLeft && blockRight) {
         counterCLS = 0;
-        objCLS.clsIdx = [];
+        tempArr = [];
     }
     if(maxCLS < counterCLS) {
         maxCLS = counterCLS;
         objCLS.clsIdx = filterArray(tempArr);
         objCLS.clsType = 'AD'
     }  
-    blockLeft = false, blockRight = false;
     objCLS.clsLength = maxCLS;
-    objCLS.clsIdx = objCLS.clsIdx.sort();
     return objCLS;
 }
-// The defensive move the CPU can perform
+
 function defensiveAction() {
     // Begin by getting the current pls
     let plsObj = plsCache[plsCache.length - 1];
     // Isolate the array of indices for ease of access
     let plsArr = plsObj.plsIdx;
-    console.log(plsObj);
+    // console.log(plsObj);
 
     // Switch to check what type pls is.
     switch(plsObj.plsType) {
@@ -973,13 +963,8 @@ function defensiveAction() {
 function agressiveAction() {
     let clsObj = clsCache[clsCache.length - 1];
     let clsArr = clsObj.clsIdx;
-    console.log('??')
     switch(clsObj.clsType) {
-        case 'undefined':
-            console.log('i fucked up')
-            break;
         case 'R':
-
             clsArr = clsArr.sort((a,b) => a[1] - b[1]);
             let left = clsArr[0];
             let right = clsArr[clsArr.length - 1];
@@ -993,7 +978,8 @@ function agressiveAction() {
                 checkBlackWin(left[0], left[1] + 1)
                 render2([right[0], right[1] + 1]);
                 clsCache.push(getCLS());
-            } 
+            } else
+                defensiveAction();
             break;
         case 'C':
             clsArr = clsArr.sort((a,b) => a[0] - b[0]);
@@ -1009,7 +995,8 @@ function agressiveAction() {
                 checkBlackWin(top[0] + 1, top[1])
                 render2([bottom[0] + 1, bottom[1]]);
                 clsCache.push(getCLS());
-            }
+            } else
+                defensiveAction();
             break;
         case 'AD':
             clsArr = clsArr.sort((a,b) => a[0] - b[0]);
@@ -1025,7 +1012,8 @@ function agressiveAction() {
                 checkBlackWin([topLeft[0] + 1], [topLeft[1] + 1])
                 render2([[bottomRight[0] + 1], [bottomRight[1] + 1]]);
                 clsCache.push(getCLS());
-            }
+            } else
+                defensiveAction();
             break;
         case 'D':
             clsArr = clsArr.sort((a,b) => a[0] - b[0]);
@@ -1041,7 +1029,8 @@ function agressiveAction() {
                 checkBlackWin([bottomLeft[0] + 1, bottomLeft[1] - 1])
                 render2([[bottomLeft[0] + 1, bottomLeft[1] - 1]]);
                 clsCache.push(getCLS());
-            }
+            } else
+                defensiveAction(); 
             break;
     }
 }
