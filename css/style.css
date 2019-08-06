@@ -5,169 +5,260 @@
     box-sizing: border-box;
 }
 
-h1 {
-    font-family: 'Quicksand', sans-serif;
-    color: white;
-    height: 1vh;
-    margin-right: 15%;
+section.game {
+    display: hidden;
 }
 
-h2 {
-    font-family: 'Quicksand', sans-serif;
-    color: white;
+section.landing {
+    visibility: grid;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+div.board {
+    display: grid;
+}
+
+section.box {
+    display: grid;
+    background: url(../images/omok.jpg);
+    width: 500px;
+}
+
+section.playable :hover {
+    background-color: white !important;
+    cursor: pointer;
+  }
+
+div.win {
+    font-size: 35px;
+}
+
+#timer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+h2.player {
+    margin-top: 0;
     margin-bottom: 0;
 }
 
 body {
-    height: 100vh;
+    background-color: grey;
+    color: white;
+    font-family: 'Quicksand';
     margin: 0;
     display: grid;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    background-color: #BAD7F2;
 }
 
-button {
-    background-color: #BAD7F2;
-    width: 50;
-    height: 25px;
-    color: white;
-    border: none;
-    font-size: 25px;
-    margin-bottom: 5px;
-    margin-top: 10px;
+a {
+  text-decoration: none;
+}
+
+nav {
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: grey;
+}
+
+ul {
+  background: grey;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+li {
+    color: #fff;
+  background: grey;
+    display: block;
+    float: left;
+    padding: 1rem;
+    position: relative;
+    text-decoration: none;
+  transition-duration: 0.5s;
+}
+  
+li a {
+  color: #fff;
+}
+
+li:hover {
+    background: green;
+    cursor: pointer;
+}
+
+ul li ul {
+    background: orange;
+    visibility: hidden;
+  opacity: 0;
+  min-width: 5rem;
+    position: absolute;
+  transition: all 0.5s ease;
+  margin-top: 1rem;
+    left: 0;
+  display: none;
+}
+
+ul li:hover > ul,
+ul li ul:hover {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+
+ul li ul li {
+    clear: both;
+  width: 100%;
+}
+
+button.start {
+    color: #ECE2D0;
 }
 
 button:hover {
-    color: #706677;
-    text-decoration: underline;
+    color: white;
+    cursor: pointer;
+}
+
+section.landing {
+    display: grid;
+    height: 100vh;
+}
+
+section.game {
+    display: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 section.playable {
-    margin-top: 5%; 
+    margin-top: 2%; 
     display: grid;
     grid-template-columns: repeat(19, 3vh);
     grid-template-rows: repeat(19, 3vh);
-    border-radius: 5%;
     grid-gap: 2px;
-}
-
-section.leftBar {
-    display: grid;
-    color: white;
-    position: relative;
-    font-size: 25px;
-    border: 2px solid #565264;
-    justify-items: center;
-    margin-right: 5%;
+    align-content: center;
+    justify-content: center;
+    margin-bottom: 10%; 
+    background-color: brown;
+    box-shadow: 8px 6px black;
+    margin-left: 10%;
+    width: 400px;
 }
 
 section.playable div {
     border: 1px solid black;
     border-radius: 10%;
-    background-color: #565264;
   }
 
-section.playable :hover {
-    background-color: #706677 !important;
+button#reset {
+    background-color: none;
+}
+
+div.heading {
+text-align: center;
+border: 2px solid white;
+border-radius: 10%;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
     cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
   }
 
-section.leftBar input {
-    color: black;
+
+  h3.landingTitle {
+      margin-top: 10px;
+      font-family: 'sand-serif';
+      font-size: 45px;
+      margin-bottom: 0;
+      text-align: center;
+  }
+
+  p.rule {
+      text-align: center;
+  }
+
+  h2#timer {
+      margin-top: 0;
+  }
+
+  button.start {
+    background-color: grey;
+    border-collapse: grey;
 }
 
-section.leftBar label {
-    color: black;
-    font-size: 20px;
-    padding-right: 15px;
-}
- 
-.container {
-    display: flex;
-    flex-direction: row-reverse;
-    margin-right: 27%;
-}
-
-.title {
-    display: flex;
-    justify-content: center;
-    padding-left: 100px;
-}
-
-.header {
-    text-decoration: underline;
-    justify-content: center;
-    color: black;
-}
-
-.etc {
-    color: black;
-}
-
-
-#timer {
-    display: flex;
-    justify-content: center;
-    padding-left: 75px;
-    margin-bottom: 0;
-}
-
-.player {
-    display: flex;
-    padding-left: 70px;
-    margin-top: 0;
-    justify-content: center;
-}
-
-.playable {
-    background-color: #BAD7F2;
-}
-
-.win {
-    display: flex;
-    justify-content: center;
-    padding-left: 20px;
-}
-
-.mrk {
-  color: white;
-  text-align: center;
-  font-size: 110px;
-  margin-bottom: 10px;
-}
-
-.dsp {
-    font-family: 'Quicksand', sans-serif;
-    color: white;
-    font-size: 45px;
-}
-
-.dsp2 {
-    font-family: 'Quicksand', sans-serif;
-    color: black;
-    font-size: 45px;
-}
-
-.heading {
-    display: grid;
-    justify-content: center;
-    margin-left: 10%;
-}
-
-#note {
-    font-size: 15px;
-    margin: auto;
-    padding: 0 10px 0 10px;
-}
-
- #container {
-     display: flex;
- }
-
- #reset {
-    margin-top: 5px;
-    margin-left: 50%;
-    width: 200px;
+button.start:hover {
+    background-color: green;
 }
