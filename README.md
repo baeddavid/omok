@@ -55,7 +55,7 @@ Two key algorithms
          * `defensiveAction()` places a piece at the first available end of the PLS.
       * If the CLS is greather than the PLS call `agressiveAction()`.
          * `agressiveAction()` places a piece at the first available end of the CLS.
-* 4. Repeat step 3 until a winner is produced.
+   4. Repeat step 3 until a winner is produced.
 
 * The algorithm has a time complexity of 𝒪(𝓷) and a space complexity of 𝒪(𝓷). It's time complexity is due to the fact that we must store all player and computer moves in separate caches.
 
