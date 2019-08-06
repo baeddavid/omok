@@ -105,10 +105,10 @@ function fadeIn() {
             game.style.opacity = 0;
         }
         if(game.style.opacity < 1)
-            game.style.opacity = parseFloat(game.style.opacity) + 0.1;
+            game.style.opacity = parseFloat(game.style.opacity) + 0.01;
         else
             clearInterval(fadeEffect);
-    }, 50);
+    }, 10);
 }
 
 function reminder() {
