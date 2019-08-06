@@ -6,7 +6,7 @@
 }
 
 button.start:hover {
-    background-color: green !important;
+    background-color: white !important;
 }
 
 section.landing {
@@ -48,6 +48,7 @@ h2.player {
 }
 
 body {
+    background: radial-gradient(white, grey);
     background-color: blanchedalmond;
     color: white;
     font-family: 'Quicksand';
@@ -63,24 +64,29 @@ a {
 }
 
 nav {
+    font-size: 20px;
     font-family: monospace;
     display: flex;
     justify-content: center;
     align-content: center;
-    background-color: blanchedalmond;
     margin-bottom: 1%;
 }
 
 ul {
-  background: blanchedalmond;
+  /* background: blanchedalmond; */
     list-style: none;
     margin: 0;
     padding-left: 0;
 }
 
+a.big {
+  font-size: 30px;
+}
+
 li {
+    font-size: 20px;
     color: #fff;
-  background: blanchedalmond;
+  /* background: blanchedalmond; */
     display: block;
     float: left;
     padding: 1rem;
@@ -100,7 +106,7 @@ li:hover {
 }
 
 ul li ul {
-    background: orange;
+    background: blanchedalmond;
     visibility: hidden;
   opacity: 0;
   min-width: 5rem;
@@ -124,7 +130,7 @@ ul li ul li {
 }
 
 button.start {
-    color: #ECE2D0;
+    color: rgb(168, 168, 168);
 }
 
 button:hover {
@@ -154,7 +160,7 @@ section.playable {
     justify-content: center;
     margin-bottom: 10%; 
     background-color: brown;
-    box-shadow: 10px 5px 15px 2px black;
+    box-shadow: 5px 5px 15px 2px black;
     margin-left: 15%;
     width: 350px;
     height: 350px;
@@ -261,6 +267,5 @@ color: black
   button.start {
     color: black;
     border: solid 2px black;
-    background-color: blanchedalmond;
-    border-collapse: blanchedalmond;
+    background-color: rgb(168, 168, 168)
 }

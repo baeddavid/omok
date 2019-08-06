@@ -95,6 +95,7 @@ function reset() {
 function fadeOut() {
     let landingPage = document.querySelector('section.landing');
     landingPage.style.display = 'none';
+    timer = 15;
     fadeIn();
 }
 

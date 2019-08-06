@@ -4,9 +4,14 @@ Omok, 오목, Chinese Checkers, GO, is an abstract strategy board game. The rule
 
 ## Design:
 
-* 19 x 19 grid design
+![alt text](images/landing.png)
+![alt text](images/board.png)
 
-* Simplistic design, with a 'restaurant' menu to the left. 
+* 19 x 19 board design
+
+* Landing Page
+
+* Minimalist design. Features are minimized until user explicitly looks for them.
 
 ## Features:
 * Win Logic
@@ -17,6 +22,7 @@ Omok, 오목, Chinese Checkers, GO, is an abstract strategy board game. The rule
 * CPU opponent
 
 ## Version:
+0.9 → Draft design and heuristic ai implemented
 0.9 → Alpha Build
 
 ## Implementation:
@@ -30,12 +36,12 @@ Two key algorithms
   2. Pursuing the naive implementation of counting instances of *B* or *W* will lead to false positives. For example if 𝓐[𝔁, 𝔂] has 5 *B*'s present in column 𝔂<sub>𝓷</sub> to 𝔂<sub>𝓷+6</sub> but is interrupted by a *W* or a *NIL*, it will return a false win.
   3. To remedy this issue, we perform a linear scan starting 𝓐[𝔁, 𝔂] to *NIL* for all columns, rows, and diagonals. If the counter at any point reaches 5, we immediately return a winner.
   4. If during the linear scan, we are interrupted by a *NIL* or the second player's piece we immediately break and perform a linear scan backwards. For example if checking a row at 𝓐[𝔁, 𝔂] we begin by scanning 𝓐[𝔁, 𝔂] to 𝓐[𝔁, 𝔂<sub>𝓷+𝓲</sub>] until we either reach 5 or are interrupted. If we are interrupted we then perform a linear scan backwards 𝓐[𝔁, 𝔂<sub>𝓷-𝓲</sub>] until iterruption. If we still have not returned a winner, we then perform the same check on the column and diagonals.
-  5. In the worst case that a piece does not have a winner at 4 pieces in all diagonals, column, and row, the algorithm has a time complexity of 𝒪(4𝓷 - 60). Although the algorithm initially seems to have a long run time due to the length of its implementation, it is relatively fast, due to the fact that we break out of each loop early if it is not a valid placement. The worst case only occurs when we have to check every possible combination and fail to return a winner with each counter ending at 4. 
+  5. The algorithm has a time complexity of 𝒪(𝓷) and a space complexity of 𝒪(1). Although the algorithm initially seems to have a long run time due to the length of its implementation, it is relatively fast, due to the fact that we break out of each loop early if it is not a valid placement. The worst case only occurs when we have to check every possible combination and fail to return a winner with each counter ending at 4. 
 
 **CPU Algorithm**
 
 * The CPU algorithm was relatively simple in theory, but it's execution was proven to be very difficult. I initially tried to implement the CPU using a variant of the `minimax` algorithm. However after finding that I would need to completely restructure my code, I opted to try a more heuristic/iterative method that consisted of 4 main components → `defensiveAction()`, `agressiveAction()`, `getPLS()`, and `getCLS()`. 
-* It is important to note that the iterative algorithm is not as efficient or "smart" as `minimax`. This is because rather than using a binary decision tree, it uses a one-pass scan of the board caching indices of potential winning subarrays. 
+* It is important to note that the iterative algorithm is not as efficient or "smart" as `minimax`. This is because rather than using a binary decision tree, it uses a one-pass scan of the board caching indices of potential winning subarrays. The moves are cached in an object that sorts them by priority of the PLS/CLS.
 * The algorithm is a "player-dependant" algorithm, meaning that if the player plays well, it will play well. If the player decides to randomly select squares it too will randomly defend squares rather than going for 5 in a row. It is however significantly more memory efficient that `minimax` since it does not need to recursively prune decision subtrees that would lead to a loss.
 
 * The rules for the iterative AI are as follows → 
@@ -49,3 +55,9 @@ Two key algorithms
          * `agressiveAction()` places a piece at the first available end of the CLS.
 * 4. Repeat step 3 until a winner is produced.
 
+* The algorithm has a time complexity of 𝒪(𝓷) and a space complexity of 𝒪(𝓷). It's time complexity is due to the fact that we must store all player and computer moves in separate caches.
+
+## Future Updates
+ * Refactor the iterative "ai" and replace it with the `minimax` algorithm.
+ * Refactor the html to reduce `div` tags written.
+ * Refactor the caches that store moves. Changing them from objects to priority queues for a more efficient aglorithm.
