@@ -68,6 +68,7 @@ nav {
     justify-content: center;
     align-content: center;
     background-color: blanchedalmond;
+    margin-bottom: 1%;
 }
 
 ul {
@@ -146,8 +147,8 @@ section.landing {
 section.playable {
     margin-top: 2%; 
     display: grid;
-    grid-template-columns: repeat(19, 3vh);
-    grid-template-rows: repeat(19, 3vh);
+    grid-template-columns: repeat(19, 18px);
+    grid-template-rows: repeat(19, 18px);
     /* grid-gap: 2px; */
     align-content: center;
     justify-content: center;
@@ -156,6 +157,7 @@ section.playable {
     box-shadow: 10px 5px 15px 2px black;
     margin-left: 15%;
     width: 350px;
+    height: 350px;
 }
 
 section.playable div {
