@@ -75,7 +75,6 @@ function newBoard() {
         }
     ];
     clsMoves = [];
-    slideBool = false;
     clearBoard();
 }
 
@@ -151,7 +150,6 @@ function cpuPlay() {
     is2p = false;
     cls = 0;
     timer = 15;
-    rst.style.backgroundColor = 'blanchedalmond';
     clearBoard();
 }
 
