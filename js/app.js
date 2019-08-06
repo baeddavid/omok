@@ -56,12 +56,34 @@ function play() {
     clearBoard();
 }
 
+function newBoard() {
+    board = [
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null], //9
+        ];
+    history = [];
+    isPlayerWhite = true;
+    winnerPresent = false;
+    counter = 0;
+    timer = 15;
+    plsCache = [];
+    clsCache = [
+        // Dummy cls object to get computer started 
+        {
+            clsLength: 0,
+            clsIdx: [0,0],
+            clsType: 'R'
+        }
+    ];
+    clsMoves = [];
+    slideBool = false;
+    clearBoard();
+}
+
 function reset() {
-    play();
+    newBoard();
     document.querySelector('.win').innerHTML = '';
-    document.querySelector('.player').innerHTML = 'Player: White';
+    document.querySelector('.player').innerHTML = 'Player: White\'s turn';
     cell.addEventListener('click', handleClick);
-    rst.style.backgroundColor = 'blanchedalmond';
     clearBoard();
 }
 

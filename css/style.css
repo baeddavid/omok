@@ -7,7 +7,6 @@
 
 
 section.landing {
-    visibility: grid;
     justify-content: center;
     align-content: center;
     align-items: center;
@@ -161,12 +160,12 @@ section.playable div {
     border-radius: 10%;
   }
 
-button#reset {
-    background-color: none;
-}
-
 section.game {
     opacity: 0;
+}
+
+li#id:hover {
+    background-color: green;
 }
 
 div.heading {
