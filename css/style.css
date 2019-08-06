@@ -24,7 +24,7 @@ section.box {
     border-radius: 5%;
     background: url(../images/omok1.jpg);
     width: 500px;
-    box-shadow: 6px 6px 5px 1px black;
+    box-shadow: 10px 5px 15px 2px black;
 }
 
 section.playable :hover {
