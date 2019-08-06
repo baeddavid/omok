@@ -22,7 +22,8 @@ Omok, 오목, Chinese Checkers, GO, is an abstract strategy board game. The rule
 * CPU opponent
 
 ## Version:
-0.9 → Draft design and heuristic ai implemented
+0.9.1 → Draft design and heuristic ai implemented
+
 0.9 → Alpha Build
 
 ## Implementation:
