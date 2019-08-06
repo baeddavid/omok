@@ -4,7 +4,7 @@ Omok, 오목, Chinese Checkers, GO, is an abstract strategy board game. The rule
 
 ## Design:
 
-![alt text](images/landing.png)
+![alt text](images/landingpage.png)
 ![alt text](images/board.png)
 
 * 19 x 19 board design
