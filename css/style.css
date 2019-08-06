@@ -5,6 +5,9 @@
     box-sizing: border-box;
 }
 
+button.start:hover {
+    background-color: green !important;
+}
 
 section.landing {
     justify-content: center;
@@ -258,8 +261,4 @@ color: black
     border: solid 2px black;
     background-color: blanchedalmond;
     border-collapse: blanchedalmond;
-}
-
-button.start:hover {
-    background-color: green;
 }

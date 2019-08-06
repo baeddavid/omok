@@ -66,6 +66,7 @@ function newBoard() {
     counter = 0;
     timer = 15;
     plsCache = [];
+    cls = 1;
     clsCache = [
         // Dummy cls object to get computer started 
         {
@@ -86,10 +87,10 @@ function reset() {
     clearBoard();
 }
 
-function resetBtn() {
-    if(winnerPresent)
-        rst.style.backgroundColor = 'green';
-}
+// function resetBtn() {
+//     if(winnerPresent)
+//         rst.style.backgroundColor = 'green';
+// }
 
 function fadeOut() {
     let landingPage = document.querySelector('section.landing');
@@ -181,7 +182,7 @@ function handleClick(evt) {
                     document.querySelector('.win').innerHTML = `<span class="dsp">White Wins in ${counter} turns!</span>`;
                     Swal.fire(`White Won in ${counter} turns!`);
                     confetti.start(1200);
-                    resetBtn();
+                    // resetBtn();
                     return;
                 }
                 // Switch player
@@ -205,7 +206,7 @@ function handleClick(evt) {
                     document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
                     Swal.fire(`Black Won in ${counter} turns!`);
                     confetti.start(1200);
-                    resetBtn();
+                    // resetBtn();
                     return;
                 }
                 isPlayerWhite = true;
@@ -234,7 +235,7 @@ function handleClick(evt) {
                     document.querySelector('.win').innerHTML = `<span class="dsp">White Wins in ${counter} turns!</span>`;
                     Swal.fire(`White Won in ${counter} turns!`);
                     confetti.start(1200);
-                    resetBtn();
+                    // resetBtn();
                     return;
                 }
                 isPlayerWhite = false;
@@ -476,7 +477,7 @@ function checkBlackWin(row, col) {
             winnerPresent = true;
         }  
     }
-    resetBtn()  
+    // resetBtn()  
 }
 // Function that checks if player White has a winning move  
 function checkWhiteWin(row, col) {
