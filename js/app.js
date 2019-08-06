@@ -3,12 +3,7 @@ let board, history, timer, plsCache, clsCache, clsMoves, slideBool;
 let isPlayerWhite, winnerPresent, is2p, counter, pls, cls;
 /*----- event listeners -----*/ 
 let start = document.querySelector('.start');
-start.addEventListener('click', function() {
-    document.querySelector('section.game').style.display = 'block'; 
-    document.querySelector('section.landing').style.display = 'none';
-    timer = 15;
-    isPlayerWhite = true;
-})
+start.addEventListener('click', fadeOut);
 
 let cell = document.querySelector('section.playable');
 cell.addEventListener('click', handleClick);
@@ -36,6 +31,7 @@ let time = document.getElementById('countDown');
 let timerId = setInterval(countDown, 1000);
 /*----- functions -----*/
 play();
+
 function play() {
     board = [
         [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null], //9
@@ -65,13 +61,32 @@ function reset() {
     document.querySelector('.win').innerHTML = '';
     document.querySelector('.player').innerHTML = 'Player: White';
     cell.addEventListener('click', handleClick);
-    rst.style.backgroundColor = 'grey';
+    rst.style.backgroundColor = 'blanchedalmond';
     clearBoard();
 }
 
 function resetBtn() {
     if(winnerPresent)
         rst.style.backgroundColor = 'green';
+}
+
+function fadeOut() {
+    let landingPage = document.querySelector('section.landing');
+    landingPage.style.display = 'none';
+    fadeIn();
+}
+
+function fadeIn() {
+    let game = document.querySelector('section.game');  
+    let fadeEffect = setInterval(function() {
+        if(!game.style.opacity) {
+            game.style.opacity = 0;
+        }
+        if(game.style.opacity < 1)
+            game.style.opacity = parseFloat(game.style.opacity) + 0.1;
+        else
+            clearInterval(fadeEffect);
+    }, 50);
 }
 
 function reminder() {
@@ -114,7 +129,7 @@ function cpuPlay() {
     is2p = false;
     cls = 0;
     timer = 15;
-    rst.style.backgroundColor = 'grey';
+    rst.style.backgroundColor = 'blanchedalmond';
     clearBoard();
 }
 
@@ -145,6 +160,7 @@ function handleClick(evt) {
                 if(winnerPresent) {
                     document.querySelector('.win').innerHTML = `<span class="dsp">White Wins in ${counter} turns!</span>`;
                     Swal.fire(`White Won in ${counter} turns!`);
+                    confetti.start(1200);
                     resetBtn();
                     return;
                 }
@@ -168,6 +184,7 @@ function handleClick(evt) {
                 if(winnerPresent) {
                     document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
                     Swal.fire(`Black Won in ${counter} turns!`);
+                    confetti.start(1200);
                     resetBtn();
                     return;
                 }
@@ -196,6 +213,7 @@ function handleClick(evt) {
                 if(winnerPresent) {
                     document.querySelector('.win').innerHTML = `<span class="dsp">White Wins in ${counter} turns!</span>`;
                     Swal.fire(`White Won in ${counter} turns!`);
+                    confetti.start(1200);
                     resetBtn();
                     return;
                 }
@@ -244,12 +262,12 @@ function clearBoard() {
 
 function render1(idxArr) {
     let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
-    marker.style.backgroundColor = '#ECE2D0';  
+    marker.style.backgroundColor = 'white';  
 }
 
 function render2(idxArr) {
     let marker = document.getElementById(`c${idxArr[0]}r${idxArr[1]}`);
-    marker.style.backgroundColor = '#4A2F30';  
+    marker.style.backgroundColor = '#5E5E5E';  
 }
 
 function replay5() {
@@ -332,6 +350,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }     
     }
@@ -345,6 +364,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }
     }
@@ -360,6 +380,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }
     }
@@ -373,6 +394,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }
     }
@@ -387,6 +409,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }
     }
@@ -400,6 +423,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }
     }
@@ -414,6 +438,7 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }  
     }
@@ -427,9 +452,11 @@ function checkBlackWin(row, col) {
             cell.removeEventListener('click', handleClick);
             document.querySelector('.win').innerHTML = `<span class="dsp2">Black Wins in ${counter} turns!</span>`;
             Swal.fire(`Black Won in ${counter} turns!`);
+            confetti.start(1200)
             winnerPresent = true;
         }  
-    }  
+    }
+    resetBtn()  
 }
 // Function that checks if player White has a winning move  
 function checkWhiteWin(row, col) {
@@ -1082,3 +1109,4 @@ function agressiveAction() {
             break;
     }
 }
+

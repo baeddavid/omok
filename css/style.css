@@ -5,9 +5,6 @@
     box-sizing: border-box;
 }
 
-section.game {
-    display: hidden;
-}
 
 section.landing {
     visibility: grid;
@@ -22,8 +19,10 @@ div.board {
 
 section.box {
     display: grid;
-    background: url(../images/omok.jpg);
+    border-radius: 5%;
+    background: url(../images/omok1.jpg);
     width: 500px;
+    box-shadow: 6px 6px 5px 1px black;
 }
 
 section.playable :hover {
@@ -47,7 +46,7 @@ h2.player {
 }
 
 body {
-    background-color: grey;
+    background-color: blanchedalmond;
     color: white;
     font-family: 'Quicksand';
     margin: 0;
@@ -66,11 +65,11 @@ nav {
     display: flex;
     justify-content: center;
     align-content: center;
-    background-color: grey;
+    background-color: blanchedalmond;
 }
 
 ul {
-  background: grey;
+  background: blanchedalmond;
     list-style: none;
     margin: 0;
     padding-left: 0;
@@ -78,7 +77,7 @@ ul {
 
 li {
     color: #fff;
-  background: grey;
+  background: blanchedalmond;
     display: block;
     float: left;
     padding: 1rem;
@@ -88,7 +87,8 @@ li {
 }
   
 li a {
-  color: #fff;
+    font-family: 'Quicksand';
+    color:black;
 }
 
 li:hover {
@@ -132,10 +132,7 @@ button:hover {
 section.landing {
     display: grid;
     height: 100vh;
-}
-
-section.game {
-    display: none;
+    color: black;
 }
 
 .container {
@@ -149,14 +146,14 @@ section.playable {
     display: grid;
     grid-template-columns: repeat(19, 3vh);
     grid-template-rows: repeat(19, 3vh);
-    grid-gap: 2px;
+    /* grid-gap: 2px; */
     align-content: center;
     justify-content: center;
     margin-bottom: 10%; 
     background-color: brown;
-    box-shadow: 8px 6px black;
-    margin-left: 10%;
-    width: 400px;
+    box-shadow: 10px 5px 15px 2px black;
+    margin-left: 15%;
+    width: 350px;
 }
 
 section.playable div {
@@ -168,10 +165,13 @@ button#reset {
     background-color: none;
 }
 
+section.game {
+    opacity: 0;
+}
+
 div.heading {
 text-align: center;
-border: 2px solid white;
-border-radius: 10%;
+color: black
 }
 
 /* The switch - the box around the slider */
@@ -255,8 +255,10 @@ border-radius: 10%;
   }
 
   button.start {
-    background-color: grey;
-    border-collapse: grey;
+    color: black;
+    border: solid 2px black;
+    background-color: blanchedalmond;
+    border-collapse: blanchedalmond;
 }
 
 button.start:hover {
