@@ -18,6 +18,12 @@ Product
 
 * Minimalist design. Features are minimized until user explicitly looks for them.
 
+## User Stories:
+ * As a user, I can click start on the landing page and expect to be taken to the game.
+ * As a user, I can expect to click new game and have the game reset.
+ * As a user, I can expect to toggle CPU and play against the computer.
+ * As a user, I can expect a winner to be declared at the end of the game.
+
 ## Features:
 * Win Logic
 * Keeps track of current player
