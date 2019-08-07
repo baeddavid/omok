@@ -2,6 +2,10 @@
 
 Omok, 오목, Chinese Checkers, GO, is an abstract strategy board game. The rule is simple. First player to have 5 pieces in a row wins.
 
+## Deployment
+
+https://eyybaebae.github.io/omok/
+
 ## Design:
 Wire Frame
 
