@@ -74,6 +74,12 @@ Two key algorithms
 
 * The algorithm has a time complexity of 𝒪(𝓷) and a space complexity of 𝒪(𝓷). It's time complexity is due to the fact that we must store all player and computer moves in separate caches.
 
+## Technologies Used
+
+ * HTML
+ * CSS
+ * Javascript
+
 ## Future Updates
  * Refactor the iterative "ai" and replace it with the `minimax` algorithm.
  * Refactor the html to reduce `div` tags written.
